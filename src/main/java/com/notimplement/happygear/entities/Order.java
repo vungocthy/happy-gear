@@ -10,7 +10,7 @@ import javax.persistence.*;
 import java.sql.Date;
 import java.util.List;
 
-@Table(name = "tbl_order")
+@Table(name = "Order")
 @Data
 @Entity
 @NoArgsConstructor

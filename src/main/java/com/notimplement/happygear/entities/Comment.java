@@ -11,7 +11,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "tbl_comment")
+@Table(name = "Comment")
 public class Comment {
     @Id
     @Column(name = "comment_id")

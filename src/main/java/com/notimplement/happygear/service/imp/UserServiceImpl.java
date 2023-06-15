@@ -96,17 +96,17 @@ public class UserServiceImpl implements UserService {
     public UserDto deleteUser(String username) {
         User user = userRepository.findByUsername(username).orElseThrow();
         if(user!=null){
-            User savedUser = new User(
-                    user.getUsername(),
-                    user.getFullName(),
-                    user.getPassword(),
-                    user.getAddress(),
-                    user.getEmail(),
-                    user.getPhoneNumber(),
-                    false,
-                    user.getGender(),
-                    user.getRole()
-            );
+            User savedUser = User.builder()
+                    .username(user.getUsername())
+                    .fullName(user.getFullName())
+                    .password(user.getPassword())
+                    .address(user.getAddress())
+                    .email(user.getEmail())
+                    .phoneNumber(user.getPhoneNumber())
+                    .gender(user.getGender())
+                    .role(user.getRole())
+                    .status(false)
+                    .build();
             userRepository.save(savedUser);
             return UserMapper.toUserDto(savedUser);
         }

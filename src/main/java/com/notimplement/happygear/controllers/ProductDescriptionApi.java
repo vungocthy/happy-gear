@@ -34,9 +34,4 @@ public class ProductDescriptionApi {
 		p.setProductId(id);
 		return ResponseEntity.ok(service.update(p));
 	}
-	
-//	@DeleteMapping("/delete/{id}")
-//	public ResponseEntity<?> deleteProductDescription(@PathVariable(name ="id") Integer id){
-//		return ResponseEntity.ok(service.delete(id));
-//	}
 }

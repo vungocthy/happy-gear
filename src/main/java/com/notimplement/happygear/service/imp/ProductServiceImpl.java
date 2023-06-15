@@ -118,7 +118,7 @@ public class ProductServiceImpl implements ProductService{
 		p.setQuantity(dto.getQuantity());
 		p.setInsuranceInfo(dto.getInsuranceInfo());
 		p.setStatus(dto.getStatus());
-		p.setProCategory(getCateById(dto.getCategoryId()));
+		p.setCategory(getCateById(dto.getCategoryId()));
 		p.setBrand(getBrandById(dto.getBrandId()));
 		return p;
 	}

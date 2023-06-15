@@ -12,7 +12,7 @@ public class ProductMapper {
 		dto.setQuantity(p.getQuantity());
 		dto.setInsuranceInfo(p.getInsuranceInfo());
 		dto.setStatus(p.getStatus());
-		dto.setCategoryId(p.getProCategory().getCategoryId());
+		dto.setCategoryId(p.getCategory().getCategoryId());
 		dto.setBrandId(p.getBrand().getBrandId());
 		dto.setPicture(p.getPicture());
 		return dto;

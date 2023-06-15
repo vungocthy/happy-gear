@@ -3,7 +3,6 @@ package com.notimplement.happygear.controllers;
 import com.notimplement.happygear.model.dto.AccountDto;
 import com.notimplement.happygear.model.dto.UserDto;
 import com.notimplement.happygear.service.UserService;
-import io.swagger.annotations.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,7 +21,6 @@ public class UserApi {
     @Autowired
     private UserService userService;
 
-    @ApiResponse(code = 200, message = "OK")
     @GetMapping("")
     public ResponseEntity<?> getAllUser(){
         List<UserDto> listUser = userService.getAllActiveUser();

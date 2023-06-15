@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Table(name = "tbl_order_detail")
+@Table(name = "OrderDetail")
 @Data
 @Entity
 @NoArgsConstructor
@@ -35,5 +35,5 @@ public class OrderDetail {
     @ManyToOne
     @JoinColumn(name = "product_id")
     @JsonManagedReference
-    private Product orderdetailProduct;
+    private Product product;
 }

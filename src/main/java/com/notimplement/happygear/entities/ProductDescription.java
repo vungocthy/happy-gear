@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Table(name = "tbl_product_description")
+@Table(name = "ProductDescription")
 @Entity
 @Data
 @NoArgsConstructor
@@ -85,7 +85,7 @@ public class ProductDescription {
 	@ManyToOne
 	@JoinColumn(name = "category_id")
 	@JsonManagedReference
-	private Category desCategory;
+	private Category category;
 	
 	@OneToOne
 	@JoinColumn(name = "product_id")

@@ -14,7 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "tbl_category")
+@Table(name = "Category")
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

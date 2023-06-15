@@ -61,7 +61,7 @@ public class ProductDescriptionServiceImpl implements ProductDescriptionService{
 	private ProductDescription toProductDescription(ProductDescriptionDto dto) {
 		ProductDescription des = new ProductDescription();
 		des.setProductId(dto.getProductId());
-		des.setDesCategory(getCateById(dto.getCategoryId()));
+		des.setCategory(getCateById(dto.getCategoryId()));
 		des.setKeycap(dto.getKeycap());
 		des.setSwitchKeyBoard(dto.getSwitchKeyBoard());
 		des.setTypeKeyboard(dto.getTypeKeyboard());

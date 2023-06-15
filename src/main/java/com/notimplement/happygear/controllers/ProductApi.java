@@ -1,12 +1,11 @@
 package com.notimplement.happygear.controllers;
 import com.notimplement.happygear.model.dto.ProductDto;
 import com.notimplement.happygear.service.ProductService;
-import com.notimplement.happygear.util.ResponseUtils;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,37 +18,31 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("api/products")
+@RequiredArgsConstructor
 public class ProductApi {
 
-	@Autowired
-	ProductService service;
+	private final ProductService productService;
+
+	@GetMapping("")
+	public ResponseEntity<?> listAllProduct(){
+		return ResponseEntity.ok(productService.listAll());
+	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<?> test(@PathVariable("id") Integer id){
-		var results = service.getProductById(id);
-		if(results == null){
-			return new ResponseEntity<>(
-				ResponseUtils.error(HttpStatus.NOT_FOUND,"Not Found",""),
-				HttpStatus.NOT_FOUND
-			);
-		}
-		return new ResponseEntity<>(ResponseUtils.success(results, "Success"), HttpStatus.OK);
-	}
-	
-	@GetMapping("")
-	public ResponseEntity<?> listAllProduct(){
-		return ResponseEntity.ok(service.listAll());
+		var results = productService.getProductById(id);
+		return ResponseEntity.ok(results);
 	}
 	
 	@GetMapping("/total")
 	public ResponseEntity<?> totalProduct(){
-		return ResponseEntity.ok(service.totalProduct());
+		return ResponseEntity.ok(productService.totalProduct());
 	}
 
 	@GetMapping("/")
 	public ResponseEntity<?> listProductByPage(@RequestParam("p") Optional<Integer> p){
 		Pageable pageable = PageRequest.of(p.orElse(0),9);
-		Map<List<ProductDto>, Integer> listIntegerMap = service.listByPage(pageable);
+		Map<List<ProductDto>, Integer> listIntegerMap = productService.listByPage(pageable);
 		List<Object> list = new ArrayList<>();
 		listIntegerMap.forEach((productDtos, integer) -> {
 			list.add(productDtos);
@@ -62,7 +55,7 @@ public class ProductApi {
 	public ResponseEntity<?> listProductByPageAndName(@RequestParam("name") String name,
 													  @RequestParam("p") Optional<Integer> p){
 		Pageable pageable = PageRequest.of(p.orElse(0),9);
-		Map<List<ProductDto>, Long> listIntegerMap = service.listByPageAndName(name, pageable);
+		Map<List<ProductDto>, Long> listIntegerMap = productService.listByPageAndName(name, pageable);
 		List<Object> list = new ArrayList<>();
 		listIntegerMap.forEach((productDtos, integer) -> {
 			list.add(productDtos);
@@ -76,7 +69,7 @@ public class ProductApi {
 												 @RequestParam("text") Optional<String> text){
 		Pageable pageable = PageRequest.of(p.orElse(0),9);
 		Map<List<ProductDto>, Integer> listIntegerMap =
-				service.listProductByName(text.orElse(""), pageable);
+				productService.listProductByName(text.orElse(""), pageable);
 		List<Object> list = new ArrayList<>();
 		listIntegerMap.forEach((productDtos, integer) -> {
 			list.add(productDtos);
@@ -93,7 +86,7 @@ public class ProductApi {
 																 @RequestParam("t") Double toPrice){
 		Pageable pageable = PageRequest.of(p.orElse(0),9);
 		Map<List<ProductDto>, Integer> listIntegerMap =
-				service.listByPageCategoryAndBrand(brandId.orElse(1),
+				productService.listByPageCategoryAndBrand(brandId.orElse(1),
 						categoryId.orElse(1), fromPrice, toPrice, pageable);
 		List<Object> list = new ArrayList<>();
 		listIntegerMap.forEach((productDtos, integer) -> {
@@ -105,30 +98,30 @@ public class ProductApi {
 
 	@GetMapping("/best-seller")
 	public ResponseEntity<?> listTop5ProductByQuanity(){
-		List<ProductDto> list = service.listAllProductWithMinQuantity();
+		List<ProductDto> list = productService.listAllProductWithMinQuantity();
 		return ResponseEntity.ok(list);
 	}
 
 	@GetMapping("/latest")
 	public ResponseEntity<?> listLatestProduct(){
-		List<ProductDto> list = service.listAllLatestProduct();
+		List<ProductDto> list = productService.listAllLatestProduct();
 		return ResponseEntity.ok(list);
 	}
 	
 	@PostMapping("/create")
 	public ResponseEntity<?> createProduct(@Valid @RequestBody ProductDto Product){
-		return ResponseEntity.ok(service.create(Product));
+		return ResponseEntity.ok(productService.create(Product));
 	}
 	
 	@PutMapping("/update/{id}")
 	public ResponseEntity<?> updateProduct(@PathVariable(name ="id") Integer id ,@Valid @RequestBody ProductDto p){
 		p.setProductId(id);
-		return ResponseEntity.ok(service.update(p));
+		return ResponseEntity.ok(productService.update(p));
 	}
 	
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<?> deleteProduct(@PathVariable(name ="id") Integer id){
-		return ResponseEntity.ok(service.delete(id));
+		return ResponseEntity.ok(productService.delete(id));
 	}
 	
 }

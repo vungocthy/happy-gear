@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.Set;
 
-@Table(name = "tbl_product")
+@Table(name = "Product")
 @Entity
 @Data
 @AllArgsConstructor
@@ -46,11 +46,11 @@ public class Product {
 	@ManyToOne
 	@JoinColumn(name = "category_id")
 	@JsonManagedReference
-	private Category proCategory;
+	private Category category;
 	
 	@OneToOne(mappedBy = "product", fetch = FetchType.LAZY)
 	@JsonBackReference
-	private ProductDescription proDesc;
+	private ProductDescription productDescription;
 
 	@OneToMany(mappedBy = "commentProduct", fetch = FetchType.LAZY)
 	@JsonBackReference

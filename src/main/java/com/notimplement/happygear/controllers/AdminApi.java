@@ -33,7 +33,6 @@ import com.notimplement.happygear.service.ProductService;
 import com.notimplement.happygear.service.RoleService;
 import com.notimplement.happygear.service.UserService;
 
-//@CrossOrigin(origins = "http://localhost:3001", maxAge = 3600)
 @RestController
 @RequestMapping("/api/admin")
 public class AdminApi {

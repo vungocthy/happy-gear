@@ -9,12 +9,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 
 @Data
@@ -22,8 +16,8 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "tbl_user")
-public class User implements UserDetails{
+@Table(name = "User")
+public class User{
     @Id
     @Column(name = "user_name")
     private String username;
@@ -61,43 +55,4 @@ public class User implements UserDetails{
     @OneToMany(mappedBy = "orderUser", fetch = FetchType.LAZY)
     @JsonBackReference
     private Set<Order> orders;
-
-    public User(String username, String fullName, String password, String address, String email, String phoneNumber,
-                Boolean status, Boolean gender, Role role) {
-        this.username = username;
-        this.fullName = fullName;
-        this.password = password;
-        this.address = address;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.status = status;
-        this.gender = gender;
-        this.role = role;
-    }
-
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return List.of(new SimpleGrantedAuthority(role.getRoleName()));
-	}
-
-
-	@Override
-	public boolean isAccountNonExpired() {
-		return true;
-	}
-
-	@Override
-	public boolean isAccountNonLocked() {
-		return true;
-	}
-
-	@Override
-	public boolean isCredentialsNonExpired() {
-		return true;
-	}
-
-	@Override
-	public boolean isEnabled() {
-		return true;
-	}
 }
