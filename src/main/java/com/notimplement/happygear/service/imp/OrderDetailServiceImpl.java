@@ -47,14 +47,16 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 
     @Override
     public List<OrderDetailDto> getAllByOrderId(Integer id) {
-        return orderDetailRepository.findAllByOrderId(id)
-                .stream().map(OrderDetailMapper::toOrderDetailDto).collect(Collectors.toList());
+        // return orderDetailRepository.findAllByOrderId(id)
+        //         .stream().map(OrderDetailMapper::toOrderDetailDto).collect(Collectors.toList());
+        return null;
     }
 
     @Override
     public List<OrderDetailDto> getAllByProductId(Integer id) {
-        return orderDetailRepository.findAllByProductId(id)
-                .stream().map(OrderDetailMapper::toOrderDetailDto).collect(Collectors.toList());
+        // return orderDetailRepository.findAllByProductId(id)
+        //         .stream().map(OrderDetailMapper::toOrderDetailDto).collect(Collectors.toList());
+        return null;
     }
 
     @Override

@@ -12,8 +12,8 @@ public class CommentMapper {
             CommentDto dto = new CommentDto();
             dto.setCommentId(comment.getCommentId());
             dto.setContent(comment.getContent());
-            dto.setUserName(comment.getCommentUser().getUsername());
-            dto.setProductId(comment.getCommentProduct().getProductId());
+            dto.setUserName(comment.getUser().getUsername());
+            dto.setProductId(comment.getProduct().getProductId());
             dto.setAvatarUrl("https://t3.ftcdn.net/jpg/03/42/99/68/360_F_342996846_tHMepJOsXWwbvMpG7uiYpE68wbfQ9e4s.jpg");
             return dto;
         }

@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.notimplement.happygear.entities.Category;
 import com.notimplement.happygear.entities.ProductDescription;
 import com.notimplement.happygear.model.dto.ProductDescriptionDto;
 import com.notimplement.happygear.model.mapper.ProductDescriptionMapper;
@@ -50,18 +49,10 @@ public class ProductDescriptionServiceImpl implements ProductDescriptionService{
 		ProductDescription des = toProductDescription(b);
 		return ProductDescriptionMapper.toProductDescriptionDto(repo.save(des));
 	}
-
-//	@Override
-//	public ProductDescriptionDto delete(Integer id) {
-//		ProductDescription des = repo.findById(id).get();
-//		des.set(false);
-//		return ProductDescriptionMapper.toProductDescriptionDto(repo.save(des));
-//	}
 	
 	private ProductDescription toProductDescription(ProductDescriptionDto dto) {
 		ProductDescription des = new ProductDescription();
-		des.setProductId(dto.getProductId());
-		des.setCategory(getCateById(dto.getCategoryId()));
+		des.setProductDescriptionId(dto.getProductDescriptionId());
 		des.setKeycap(dto.getKeycap());
 		des.setSwitchKeyBoard(dto.getSwitchKeyBoard());
 		des.setTypeKeyboard(dto.getTypeKeyboard());
@@ -84,9 +75,5 @@ public class ProductDescriptionServiceImpl implements ProductDescriptionService{
 		des.setScreenSize(dto.getScreenSize());
 		des.setScreenType(dto.getScreenType());
 		return des;
-	}
-	
-	private Category getCateById(Integer id) {
-		return cateRepo.findById(id).get();
 	}
 }

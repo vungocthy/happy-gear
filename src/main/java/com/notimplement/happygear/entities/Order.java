@@ -10,7 +10,7 @@ import javax.persistence.*;
 import java.sql.Date;
 import java.util.List;
 
-@Table(name = "Order")
+@Table(name = "order")
 @Data
 @Entity
 @NoArgsConstructor
@@ -32,10 +32,10 @@ public class Order {
 
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
     @JsonBackReference
-    private List<OrderDetail> orderDetailSet;
+    private List<OrderDetail> orderDetails;
 
     @ManyToOne
     @JoinColumn(name = "user_name")
     @JsonManagedReference
-    private User orderUser;
+    private User user;
 }

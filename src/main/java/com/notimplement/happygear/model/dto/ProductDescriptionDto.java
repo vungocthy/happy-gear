@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProductDescriptionDto {
 
-	private Integer productId;
+	private Integer productDescriptionId;
 
 	@NotNull(message = "Category can not null!!!")
 	private Integer categoryId;

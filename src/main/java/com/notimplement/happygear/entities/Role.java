@@ -6,10 +6,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Set;
+
+import java.util.List;
 
 
-@Table(name = "Role")
+@Table(name = "role")
 @Entity
 @Data
 @AllArgsConstructor
@@ -28,5 +29,5 @@ public class Role {
 
     @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
     @JsonBackReference
-    private Set<User> users;
+    private List<User> users;
 }

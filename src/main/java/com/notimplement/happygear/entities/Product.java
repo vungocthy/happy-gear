@@ -7,9 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
-@Table(name = "Product")
+@Table(name = "product")
 @Entity
 @Data
 @AllArgsConstructor
@@ -17,7 +17,7 @@ import java.util.Set;
 public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "product_id", nullable = false, updatable = false)
+	@Column(name = "product_id", nullable = false)
 	private Integer productId;
 	
 	@Column(name = "product_name")
@@ -49,19 +49,18 @@ public class Product {
 	private Category category;
 	
 	@OneToOne(mappedBy = "product", fetch = FetchType.LAZY)
-	@JsonBackReference
+	@JoinColumn(name = "product_description_id")
 	private ProductDescription productDescription;
 
-	@OneToMany(mappedBy = "commentProduct", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
 	@JsonBackReference
-	private Set<Comment> comments;
+	private List<Comment> comments;
 
-	@OneToMany(mappedBy = "pictureProduct", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
 	@JsonBackReference
-	private Set<ProductPicture> productPictures;
+	private List<ProductPicture> productPictures;
 	
-	
-	@OneToMany(mappedBy = "orderdetailProduct", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
 	@JsonBackReference
-	private Set<OrderDetail> orderDetails;
+	private List<OrderDetail> orderDetails;
 }

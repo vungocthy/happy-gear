@@ -1,8 +1,10 @@
 spring:
   application:
     name: happygear
-  profiles:
-    active: @profileActive@
+  datasource:
+    url: jdbc:mysql://localhost:3306/happygear
+    username: root
+    password: 12345
   jpa:
     hibernate:
       ddl-auto: update
@@ -15,13 +17,7 @@ spring:
         show_sql: true
         use_sql_comments: true
 
-springfox:
-  documentation:
-    swagger:
-      use-model-v3: false
 server:
   port: 8080
   servlet:
     context-path: /happygear
-  
-spring.mvc.pathmatch.matching-strategy: ant_path_matcher

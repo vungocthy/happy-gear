@@ -61,7 +61,7 @@ public class ProductPictureServiceImpl implements ProductPictureService{
 		pic.setPictureId(dto.getPictureId());
 		pic.setPictureUrl(dto.getPictureUrl());
 		pic.setStatus(dto.getStatus());
-		pic.setPictureProduct(getProductById(dto.getProductId()));
+		pic.setProduct(getProductById(dto.getProductId()));
 		return pic;
 	}
 	
@@ -71,15 +71,17 @@ public class ProductPictureServiceImpl implements ProductPictureService{
 
 	@Override
 	public List<ProductPictureDto> listByProductIdAndStatus(Integer id, Boolean status) {
-		List<ProductPicture> list = repo.findByPictureProductAndStatus(getProductById(id), status);
-		List<ProductPictureDto> listDto = new ArrayList<>();
-		list.forEach(v -> listDto.add(ProductPictureMapper.toProductPictureDto(v)));
-		return listDto;
+		// List<ProductPicture> list = repo.findByPictureProductAndStatus(getProductById(id), status);
+		// List<ProductPictureDto> listDto = new ArrayList<>();
+		// list.forEach(v -> listDto.add(ProductPictureMapper.toProductPictureDto(v)));
+		// return listDto;
+		return null;
 	}
 
 	@Override
 	public ProductPictureDto getByProductId(Integer id) {
-		ProductPicture picture = repo.getMainByProductId(id);
-		return ProductPictureMapper.toProductPictureDto(picture);
+		// ProductPicture picture = repo.getMainByProductId(id);
+		// return ProductPictureMapper.toProductPictureDto(picture);
+		return null;
 	}
 }

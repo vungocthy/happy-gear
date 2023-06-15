@@ -9,14 +9,14 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-import java.util.Set;
+import java.util.List;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "User")
+@Table(name = "user")
 public class User{
     @Id
     @Column(name = "user_name")
@@ -48,11 +48,11 @@ public class User{
     @JsonManagedReference
     private Role role;
 
-    @OneToMany(mappedBy = "commentUser", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     @JsonBackReference
-    private Set<Comment> comments;
+    private List<Comment> comments;
 
-    @OneToMany(mappedBy = "orderUser", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     @JsonBackReference
-    private Set<Order> orders;
+    private List<Order> orders;
 }

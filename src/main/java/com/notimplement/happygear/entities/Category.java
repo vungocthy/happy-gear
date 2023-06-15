@@ -7,14 +7,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "Category")
+@Table(name = "category")
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,11 +27,7 @@ public class Category {
     @Column(name = "status")
     private Boolean status;
     
-    @OneToMany(mappedBy = "proCategory", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
     @JsonBackReference
-    private Set<Product> products;
-    
-    @OneToMany(mappedBy = "desCategory", fetch = FetchType.LAZY)
-    @JsonBackReference
-    private Set<ProductDescription> proDescs;
+    private List<Product> products;
 }

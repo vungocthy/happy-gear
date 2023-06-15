@@ -31,7 +31,7 @@ public class ProductDescriptionApi {
 	
 	@PutMapping("/update/{id}")
 	public ResponseEntity<?> updateProductDescription(@PathVariable(name ="id") Integer id ,@Valid @RequestBody ProductDescriptionDto p){
-		p.setProductId(id);
+		p.setProductDescriptionId(id);
 		return ResponseEntity.ok(service.update(p));
 	}
 }

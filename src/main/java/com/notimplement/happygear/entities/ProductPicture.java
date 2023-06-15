@@ -10,7 +10,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "ProductPicture")
+@Table(name = "productpicture")
 public class ProductPicture {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,5 +26,5 @@ public class ProductPicture {
     @ManyToOne
     @JoinColumn(name = "product_id")
     @JsonManagedReference
-    private Product pictureProduct;
+    private Product product;
 }

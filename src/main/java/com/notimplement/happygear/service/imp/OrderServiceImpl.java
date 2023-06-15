@@ -35,8 +35,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderDto> getByUserName(String username) {
-        return orderRepository.findByUserName(username)
-                .stream().map(OrderMapper::toOrderDto).collect(Collectors.toList());
+        // return orderRepository.findByUserName(username)
+        //         .stream().map(OrderMapper::toOrderDto).collect(Collectors.toList());
+        return null;
     }
 
     @Override
@@ -78,7 +79,7 @@ public class OrderServiceImpl implements OrderService {
         order.setDate(orderDto.getDate());
         order.setTotal(orderDto.getTotal());
         order.setStatus(orderDto.getStatus());
-        order.setOrderUser(userRepository.findByUsername(orderDto.getUserName()).orElseThrow());
+        order.setUser(userRepository.findByUsername(orderDto.getUserName()).orElseThrow());
         return order;
     }
 }

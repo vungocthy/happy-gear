@@ -11,7 +11,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "Comment")
+@Table(name = "comment")
 public class Comment {
     @Id
     @Column(name = "comment_id")
@@ -26,10 +26,10 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "product_id")
     @JsonManagedReference
-    private Product commentProduct;
+    private Product product;
 
     @ManyToOne
     @JoinColumn(name = "user_name")
     @JsonManagedReference
-    private User commentUser;
+    private User user;
 }

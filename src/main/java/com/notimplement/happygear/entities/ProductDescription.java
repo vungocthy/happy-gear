@@ -1,23 +1,21 @@
 package com.notimplement.happygear.entities;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Table(name = "ProductDescription")
+@Table(name = "productdescription")
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductDescription {
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "product_id", nullable = false)
-	private Integer productId;
+	@Column(name = "product_description_id", nullable = false)
+	private Integer productDescriptionId;
 	
 	@Column(name = "kepcap")
 	private String keycap;
@@ -81,14 +79,8 @@ public class ProductDescription {
 	
 	@Column(name = "screen_type")
 	private String screenType;
-	
-	@ManyToOne
-	@JoinColumn(name = "category_id")
-	@JsonManagedReference
-	private Category category;
-	
-	@OneToOne
+
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "product_id")
-	@JsonManagedReference
 	private Product product;
 }

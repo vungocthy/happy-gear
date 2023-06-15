@@ -52,10 +52,11 @@ public class ProductServiceImpl implements ProductService{
 
 	@Override
 	public Map<List<ProductDto>, Integer> listByPageCategoryAndBrand(Integer brandId, Integer categoryId, Double fromPrice, Double toPrice, Pageable pageable){
-		Map<List<ProductDto>, Integer> pair = new HashMap<List<ProductDto>, Integer>();
-		Page<Product> pageList = repo.findAllProductWithFilter(brandId,categoryId,fromPrice,toPrice, pageable);
-		pair.put(pageList.stream().map(ProductMapper::toProductDto).collect(Collectors.toList()), pageList.getTotalPages());
-		return pair;
+		// Map<List<ProductDto>, Integer> pair = new HashMap<List<ProductDto>, Integer>();
+		// Page<Product> pageList = repo.findAllProductWithFilter(brandId,categoryId,fromPrice,toPrice, pageable);
+		// pair.put(pageList.stream().map(ProductMapper::toProductDto).collect(Collectors.toList()), pageList.getTotalPages());
+		// return pair;
+		return null;
 	}
 	
 	@Override
@@ -76,14 +77,16 @@ public class ProductServiceImpl implements ProductService{
 
 	@Override
 	public List<ProductDto> listAllProductWithMinQuantity(){
-		List<Product> list = repo.findTop5AndOrderByQuantityAsc();
-		return list.stream().map(ProductMapper::toProductDto).collect(Collectors.toList());
+		// List<Product> list = repo.findTop5AndOrderByQuantityAsc();
+		// return list.stream().map(ProductMapper::toProductDto).collect(Collectors.toList());
+		return null;
 	}
 
 	@Override
 	public List<ProductDto> listAllLatestProduct(){
-		List<Product> list = repo.findLatestProduct();
-		return list.stream().map(ProductMapper::toProductDto).collect(Collectors.toList());
+		// List<Product> list = repo.findLatestProduct();
+		// return list.stream().map(ProductMapper::toProductDto).collect(Collectors.toList());
+		return null;
 	}
 
 	@Override

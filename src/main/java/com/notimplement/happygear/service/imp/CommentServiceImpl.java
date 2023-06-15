@@ -44,16 +44,17 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<CommentDto> getCommentByProductId(Integer id) {
-        List<CommentDto> res = new ArrayList<>();
-        List<CommentDto> list = commentRepository.findAllByProductId(id)
-                .stream().map(CommentMapper::toCommentDto).collect(Collectors.toList());
-        list.forEach(c -> {
-            CommentDto commentDto = getCommentById(c.getCommentId());
-            if(commentDto.getCommentParentId() == null) {
-                res.add(commentDto);
-            }
-        });
-        return res;
+        // List<CommentDto> res = new ArrayList<>();
+        // List<CommentDto> list = commentRepository.findAllByProductId(id)
+        //         .stream().map(CommentMapper::toCommentDto).collect(Collectors.toList());
+        // list.forEach(c -> {
+        //     CommentDto commentDto = getCommentById(c.getCommentId());
+        //     if(commentDto.getCommentParentId() == null) {
+        //         res.add(commentDto);
+        //     }
+        // });
+        // return res;
+        return null;
     }
 
     @Override
@@ -114,8 +115,9 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<CommentDto> getAllCommentByUserName(String username) {
-        return commentRepository.findAllByUserName(username)
-                .stream().map(CommentMapper::toCommentDto).collect(Collectors.toList());
+        // return commentRepository.findAllByUserName(username)
+        //         .stream().map(CommentMapper::toCommentDto).collect(Collectors.toList());
+        return null;
     }
 
     @Override
@@ -129,8 +131,8 @@ public class CommentServiceImpl implements CommentService {
             Comment comment = new Comment();
             comment.setCommentId(commentDto.getCommentId());
             comment.setContent(commentDto.getContent());
-            comment.setCommentUser(userRepository.findByUsername(commentDto.getUserName()).orElseThrow());
-            comment.setCommentProduct(productRepository.findByProductId(commentDto.getProductId()));
+            comment.setUser(userRepository.findByUsername(commentDto.getUserName()).orElseThrow());
+            comment.setProduct(productRepository.findByProductId(commentDto.getProductId()));
             return comment;
         }
         return null;

@@ -6,9 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
-@Table(name = "Brand")
+@Table(name = "brand")
 @Entity
 @Data
 @AllArgsConstructor
@@ -27,5 +27,5 @@ public class Brand {
 	
 	@OneToMany(mappedBy = "brand", fetch = FetchType.LAZY)
 	@JsonBackReference
-	private Set<Product> products;
+	private List<Product> products;
 }

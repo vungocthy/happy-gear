@@ -6,8 +6,7 @@ import com.notimplement.happygear.model.dto.ProductDescriptionDto;
 public class ProductDescriptionMapper {
 	public static ProductDescriptionDto toProductDescriptionDto(ProductDescription des) {
 		ProductDescriptionDto dto = new ProductDescriptionDto();
-		dto.setProductId(des.getProductId());
-		dto.setCategoryId(des.getCategory().getCategoryId());
+		dto.setProductDescriptionId(des.getProductDescriptionId());
 		dto.setKeycap(des.getKeycap());
 		dto.setSwitchKeyBoard(des.getSwitchKeyBoard());
 		dto.setTypeKeyboard(des.getTypeKeyboard());
