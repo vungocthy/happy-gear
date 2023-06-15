@@ -10,15 +10,15 @@ import javax.persistence.*;
 import java.sql.Date;
 import java.util.List;
 
-@Table(name = "order")
 @Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "tbl_order")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "order_id", nullable = false, updatable = false)
+    @Column(name = "order_id")
     private Integer orderId;
 
     @Column(name = "date")

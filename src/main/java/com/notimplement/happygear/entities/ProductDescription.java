@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Table(name = "productdescription")
+@Table(name = "tbl_product_description")
 @Entity
 @Data
 @NoArgsConstructor
@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class ProductDescription {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "product_description_id", nullable = false)
+	@Column(name = "product_description_id")
 	private Integer productDescriptionId;
 	
 	@Column(name = "kepcap")

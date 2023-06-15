@@ -2,7 +2,7 @@ package com.notimplement.happygear.model.enums;
 
 public enum OrderStatus {
     COMPLETED(0),
-    ON_PROCESSING(1),
+    ONPROCESSING(1),
     PENDING(2),
     CANCEL(3);
 

@@ -12,6 +12,6 @@ public class OrderDetailDto {
     private Integer orderId;
     private Double price;
     private Integer quantity;
-    private Boolean status;
     private Integer productId;
+    private Boolean status;
 }

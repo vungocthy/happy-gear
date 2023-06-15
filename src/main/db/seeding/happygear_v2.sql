@@ -1,13 +1,13 @@
-INSERT INTO `role`(`role_name`, `status`) 
+INSERT INTO `tbl_role`(`role_name`, `status`) 
 VALUES('ROLE_ADMIN', true),('ROLE_USER', true);
 
-INSERT INTO `user`(`user_name`,`full_name`,`password`,`address`,`email`,`phone_number`,`role_id`,`gender`,`status`) 
+INSERT INTO `tbl_user`(`user_name`,`full_name`,`password`,`address`,`email`,`phone_number`,`role_id`,`gender`,`status`) 
 VALUES
 ('nguyenhuy','Nguyen Hoang Duc Huy','123','48 Le Loi, Q Tan Binh','nguyenhuy@gmail.com','0912345678',1,1,1),
 ('hungtran','Tran The Hung','123','49 Tran Xuan Soan, Q 7','hungtran@gmail.com','0912345678',2,1,1),
 ('hongtran','Tran Hong','123','78 Huong Lo 2, Q Binh Tan','hongtran@gmail.com','0912345678',2,1,1);
 
-INSERT INTO category(`category_id`,`category_name`,`status`)
+INSERT INTO `tbl_category`(`category_id`,`category_name`,`status`)
 VALUES
 (1,'LAPTOP',1),
 (2,'MONITOR',1),
@@ -15,7 +15,7 @@ VALUES
 (4,'MOUSE',1),
 (5,'KEYBOARD',1);
 
-INSERT INTO brand(`brand_id`,`brand_name`,`status`)
+INSERT INTO `tbl_brand`(`brand_id`,`brand_name`,`status`)
 VALUES
 (1,'ACER',1),
 (2,'ASUS',1),
@@ -24,7 +24,7 @@ VALUES
 (5,'LOGITECH',1),
 (6,'CORSAIR',1);
 
-INSERT INTO product (`product_id`,`product_name`,`price`,`quantity`,`insurance_info`,`status`,`category_id`,`brand_id`,`picture`) 
+INSERT INTO `tbl_product`(`product_id`,`product_name`,`price`,`quantity`,`insurance_info`,`status`,`category_id`,`brand_id`,`picture`) 
 VALUES 
 (1,'Laptop Acer Swift 3 SF314 512 56QN',23990000,10,'12 tháng',1,1,1,'https://product.hstatic.net/1000026716/product/gearvn-laptop-dell-inspiron-15-3520-n5i5122w1-black-1_48258b668e224dc391f31649931443f3.png'),
 (2,'Laptop Acer Swift 3 SF314 71 74WD',33990000,12,'12 tháng',1,1,1,'https://product.hstatic.net/1000026716/product/gearvn-laptop-dell-inspiron-15-3520-n5i5122w1-black-1_48258b668e224dc391f31649931443f3.png'),
@@ -75,7 +75,7 @@ VALUES
 (44,'Bàn phím Corsair K55 RGB Pro',1050000,100,'12 months',1,5,6,'https://product.hstatic.net/1000026716/product/base-k55-rgb-pro-config-gallery-k55-rgb-pro-01_383e5e6b6c1448ec8ea2774436fc35bb.jpg'),
 (45,'Bàn phím Corsair K68 RGB',2590000,100,'12 months',1,5,6,'https://product.hstatic.net/1000026716/product/base-k55-rgb-pro-config-gallery-k55-rgb-pro-01_383e5e6b6c1448ec8ea2774436fc35bb.jpg');
 
-INSERT INTO `productpicture` (`picture_id`,`picture_url`,`product_id`,`status`) VALUES 
+INSERT INTO `tbl_product_picture` (`picture_id`,`picture_url`,`product_id`,`status`) VALUES 
 (1,'https://product.hstatic.net/1000026716/product/i3u082w11blu-fix_6024858859ea443fa4bb8436e9fcda54.png',18,1),
 (2,'https://product.hstatic.net/1000026716/product/in3520nt-cnb-00060lb055-bk_b97c424017ec470bb03ed47b13fabd99.png',18,1),
 (3,'https://product.hstatic.net/1000026716/product/in3520nt-cnb-00060rb055-bk_6fa7d1a700314c19adf6617e48435bb7.png',18,1),

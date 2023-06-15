@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.List;
 
-@Table(name = "product")
+@Table(name = "tbl_product")
 @Entity
 @Data
 @AllArgsConstructor
@@ -17,7 +17,7 @@ import java.util.List;
 public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "product_id", nullable = false)
+	@Column(name = "product_id")
 	private Integer productId;
 	
 	@Column(name = "product_name")
