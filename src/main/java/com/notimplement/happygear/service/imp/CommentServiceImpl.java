@@ -33,7 +33,7 @@ public class CommentServiceImpl implements CommentService {
         List<CommentDto> list = commentRepository.findAll()
                 .stream()
                 .map(v -> mapper.map(v, CommentDto.class))
-                .toList();
+                .collect(Collectors.toList());
         
         list.forEach(c -> {
             if (c.getCommentParentId() == null) {
@@ -52,7 +52,7 @@ public class CommentServiceImpl implements CommentService {
         List<CommentDto> list = commentRepository.findAllByProductId(id)
                 .stream()
                 .map(v -> mapper.map(v, CommentDto.class))
-                .toList();
+                .collect(Collectors.toList());
         list.forEach(c -> {
             CommentDto commentDto = getCommentById(c.getCommentId());
             if(commentDto.getCommentParentId() == null) {
@@ -116,7 +116,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<CommentDto> getAllCommentByUserName(String username) {
         return commentRepository.findAllByUserName(username)
-                .stream().map(v -> mapper.map(v, CommentDto.class)).toList();
+                .stream().map(v -> mapper.map(v, CommentDto.class)).collect(Collectors.toList());
     }
 
     @Override

@@ -17,6 +17,7 @@ import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -32,7 +33,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll()
                 .stream()
                 .map(v -> mapper.map(v, UserDto.class))
-                .toList();
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -82,7 +83,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAllUserWithActiveStatus()
                 .stream()
                 .map(v -> mapper.map(v, UserDto.class))
-                .toList();
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -138,7 +139,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByFullNameContainingIgnoreCase(name)
                 .stream()
                 .map(v -> mapper.map(v, UserDto.class))
-                .toList();
+                .collect(Collectors.toList());
     }
 
     private User toUser(UserDto dto){
@@ -163,7 +164,7 @@ public class UserServiceImpl implements UserService {
 		Map<List<UserDto>, Long> pair = new HashMap<List<UserDto>, Long>();
 		Page<User> pageList = userRepository.findAll(p);
 		pair.put(
-            pageList.stream().map(v -> mapper.map(v, UserDto.class)).toList(), 
+            pageList.stream().map(v -> mapper.map(v, UserDto.class)).collect(Collectors.toList()),
             pageList.getTotalElements());
 		return pair;
 	}

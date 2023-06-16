@@ -1,6 +1,7 @@
 package com.notimplement.happygear.service.imp;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -28,7 +29,7 @@ public class ProductPictureServiceImpl implements ProductPictureService{
 		return productPictureRepository.findAll()
 				.stream()
 				.map(v -> mapper.map(v, ProductPictureDto.class))
-				.toList();
+				.collect(Collectors.toList());
 	}
 
 	@Override
@@ -73,6 +74,6 @@ public class ProductPictureServiceImpl implements ProductPictureService{
 		return productPictureRepository.findByProductId(id)
 				.stream()
 				.map(v -> mapper.map(v, ProductPictureDto.class))
-				.toList();
+				.collect(Collectors.toList());
 	}
 }

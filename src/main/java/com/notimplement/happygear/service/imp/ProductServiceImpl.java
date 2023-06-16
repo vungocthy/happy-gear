@@ -38,7 +38,7 @@ public class ProductServiceImpl implements ProductService{
 		return productRepository.findAll()
 			.stream()
 			.map(v -> mapper.map(v, ProductDto.class))
-			.toList();
+			.collect(Collectors.toList());
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class ProductServiceImpl implements ProductService{
 		Map<List<ProductDto>, Integer> pair = new HashMap<>();
 		Page<Product> pageList = productRepository.findAll(pageable);
 		pair.put(
-			pageList.stream().map(v -> mapper.map(v, ProductDto.class)).toList(), 
+			pageList.stream().map(v -> mapper.map(v, ProductDto.class)).collect(Collectors.toList()),
 			pageList.getTotalPages()
 		);
 		return pair;
@@ -58,7 +58,7 @@ public class ProductServiceImpl implements ProductService{
 		Map<List<ProductDto>, Integer> pair = new HashMap<List<ProductDto>, Integer>();
 		Page<Product> pageList = productRepository.findAllProductWithFilter(brandId,categoryId,fromPrice,toPrice, pageable);
 		pair.put(
-			pageList.stream().map(v -> mapper.map(v, ProductDto.class)).toList(), 
+			pageList.stream().map(v -> mapper.map(v, ProductDto.class)).collect(Collectors.toList()),
 			pageList.getTotalPages()
 		);
 		return pair;
@@ -69,7 +69,7 @@ public class ProductServiceImpl implements ProductService{
 		Map<List<ProductDto>, Long> pair = new HashMap<List<ProductDto>, Long>();
 		Page<Product> pageList = productRepository.findByProductNameContaining(productName, pageable);
 		pair.put(
-			pageList.stream().map(v -> mapper.map(v, ProductDto.class)).toList(), 
+			pageList.stream().map(v -> mapper.map(v, ProductDto.class)).collect(Collectors.toList()),
 			pageList.getTotalElements());
 		return pair;
 	}
@@ -79,7 +79,7 @@ public class ProductServiceImpl implements ProductService{
 		Map<List<ProductDto>, Integer> pair = new HashMap<List<ProductDto>, Integer>();
 		Page<Product> pageList = productRepository.findByProductNameContainingIgnoreCase(productName, pageable);
 		pair.put(
-			pageList.stream().map(v -> mapper.map(v, ProductDto.class)).toList(), 
+			pageList.stream().map(v -> mapper.map(v, ProductDto.class)).collect(Collectors.toList()),
 			pageList.getTotalPages());
 		return pair;
 	}
@@ -87,7 +87,7 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public List<ProductDto> listAllLatestProduct(){
 		List<Product> list = productRepository.findTop4ByOrderByProductId();
-		return list.stream().map(v -> mapper.map(v, ProductDto.class)).toList();
+		return list.stream().map(v -> mapper.map(v, ProductDto.class)).collect(Collectors.toList());
 	}
 
 	@Override

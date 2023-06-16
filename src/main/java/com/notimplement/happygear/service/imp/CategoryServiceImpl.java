@@ -1,6 +1,7 @@
 package com.notimplement.happygear.service.imp;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class CategoryServiceImpl implements CategoryService{
 		return categoryRepository.findAll()
 			.stream()
 			.map(v -> mapper.map(v, CategoryDto.class))
-			.toList();
+			.collect(Collectors.toList());
 	}
 
 	@Override

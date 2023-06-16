@@ -1,6 +1,7 @@
 package com.notimplement.happygear.service.imp;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ public class BrandServiceImpl implements BrandService{
 	public List<BrandDto> listAll() {
 		return brandRepository.findAll()
 				.stream().map(v -> mapper.map(v, BrandDto.class))
-				.toList();
+				.collect(Collectors.toList());
 	}
 
 	@Override

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -35,7 +36,7 @@ public class RoleServiceImpl implements RoleService {
        return roleRepository.findAll()
                .stream()
                .map(v -> mapper.map(v, RoleDto.class))
-               .toList();
+               .collect(Collectors.toList());
     }
 
     @Override
