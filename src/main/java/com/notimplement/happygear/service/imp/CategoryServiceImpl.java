@@ -3,7 +3,7 @@ package com.notimplement.happygear.service.imp;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.modelmapper.ModelMapper;
+import com.notimplement.happygear.model.mapper.Mapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.notimplement.happygear.entities.Category;
@@ -19,39 +19,41 @@ import lombok.RequiredArgsConstructor;
 public class CategoryServiceImpl implements CategoryService{
 	
 	private final CategoryRepository categoryRepository;
-	private final ModelMapper mapper;
 	
 	@Override
 	public List<CategoryDto> listAll() {
 		return categoryRepository.findAll()
 			.stream()
-			.map(v -> mapper.map(v, CategoryDto.class))
+			.map(Mapper::toCategoryDto)
 			.collect(Collectors.toList());
 	}
 
 	@Override
 	public CategoryDto getById(Integer id) {
 		var cate = categoryRepository.findById(id).orElse(null);
-		return mapper.map(cate, CategoryDto.class);
+		return Mapper.toCategoryDto(cate);
 	}
 
 	@Override
 	public CategoryDto create(CategoryDto b) {
 		Category cate = toCategory(b);
-		return mapper.map(categoryRepository.save(cate), CategoryDto.class);
+		Category res = categoryRepository.save(cate);
+		return Mapper.toCategoryDto(res);
 	}
 
 	@Override
 	public CategoryDto update(CategoryDto b) {
 		Category cate = toCategory(b);
-		return mapper.map(categoryRepository.save(cate), CategoryDto.class);
+		Category res = categoryRepository.save(cate);
+		return Mapper.toCategoryDto(res);
 	}
 
 	@Override
 	public CategoryDto delete(Integer id) {
 		Category cate = categoryRepository.findById(id).orElse(null);
 		cate.setStatus(false);
-		return mapper.map(categoryRepository.save(cate), CategoryDto.class);
+		Category res = categoryRepository.save(cate);
+		return Mapper.toCategoryDto(res);
 	}
 	
 	private Category toCategory(CategoryDto dto) {

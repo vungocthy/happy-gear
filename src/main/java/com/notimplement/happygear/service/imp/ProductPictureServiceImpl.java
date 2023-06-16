@@ -3,8 +3,8 @@ package com.notimplement.happygear.service.imp;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.notimplement.happygear.model.mapper.Mapper;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,38 +22,41 @@ public class ProductPictureServiceImpl implements ProductPictureService{
 
 	private final ProductPictureRepository productPictureRepository;
 	private final ProductRepository productRepository;
-	private final ModelMapper mapper;
 	
 	@Override
 	public List<ProductPictureDto> listAll() {
 		return productPictureRepository.findAll()
 				.stream()
-				.map(v -> mapper.map(v, ProductPictureDto.class))
+				.map(Mapper::toProductPictureDto)
 				.collect(Collectors.toList());
 	}
 
 	@Override
 	public ProductPictureDto getById(Integer id) {
-		return mapper.map(productPictureRepository.findById(id).get(), ProductPictureDto.class);
+		ProductPicture pic = productPictureRepository.findById(id).get();
+		return Mapper.toProductPictureDto(pic);
 	}
 
 	@Override
 	public ProductPictureDto create(ProductPictureDto b) {
 		ProductPicture pic = toProductPicture(b);
-		return mapper.map(productPictureRepository.save(pic), ProductPictureDto.class);
+		ProductPicture res = productPictureRepository.save(pic);
+		return Mapper.toProductPictureDto(res);
 	}
 
 	@Override
 	public ProductPictureDto update(ProductPictureDto b) {
 		ProductPicture pic = toProductPicture(b);
-		return mapper.map(productPictureRepository.save(pic), ProductPictureDto.class);
+		ProductPicture res = productPictureRepository.save(pic);
+		return Mapper.toProductPictureDto(res);
 	}
 
 	@Override
 	public ProductPictureDto delete(Integer id) {
 		ProductPicture pic = productPictureRepository.findById(id).get();
 		pic.setStatus(false);
-		return mapper.map(productPictureRepository.save(pic), ProductPictureDto.class);
+		ProductPicture res = productPictureRepository.save(pic);
+		return Mapper.toProductPictureDto(res);
 	}
 	
 	private ProductPicture toProductPicture(ProductPictureDto dto) {
@@ -73,7 +76,7 @@ public class ProductPictureServiceImpl implements ProductPictureService{
 	public List<ProductPictureDto> getByProductId(Integer id) {
 		return productPictureRepository.findByProductId(id)
 				.stream()
-				.map(v -> mapper.map(v, ProductPictureDto.class))
+				.map(Mapper::toProductPictureDto)
 				.collect(Collectors.toList());
 	}
 }

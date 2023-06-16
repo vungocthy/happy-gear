@@ -3,14 +3,15 @@ package com.notimplement.happygear.service.imp;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.notimplement.happygear.model.mapper.Mapper;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.notimplement.happygear.entities.ProductDescription;
 import com.notimplement.happygear.model.dto.ProductDescriptionDto;
 import com.notimplement.happygear.repositories.ProductDescriptionRepository;
+import com.notimplement.happygear.repositories.ProductRepository;
 import com.notimplement.happygear.service.ProductDescriptionService;
 
 
@@ -20,29 +21,34 @@ import com.notimplement.happygear.service.ProductDescriptionService;
 public class ProductDescriptionServiceImpl implements ProductDescriptionService{
 
 	private final ProductDescriptionRepository productDescriptionRepository;
-	private final ModelMapper mapper;
+	private final ProductRepository productRepository;
 	
 	@Override
 	public List<ProductDescriptionDto> listAll() {
 		return productDescriptionRepository.findAll()
-				.stream().map(v -> mapper.map(v, ProductDescriptionDto.class)).collect(Collectors.toList());
+				.stream()
+				.map(Mapper::toProductDescriptionDto)
+				.collect(Collectors.toList());
 	}
 
 	@Override
 	public ProductDescriptionDto getById(Integer id) {
-		return mapper.map(productDescriptionRepository.findById(id).get(), ProductDescriptionDto.class);
+		ProductDescription des = productDescriptionRepository.findById(id).get();
+		return Mapper.toProductDescriptionDto(des);
 	}
 
 	@Override
 	public ProductDescriptionDto create(ProductDescriptionDto b) {
 		ProductDescription des = toProductDescription(b);
-		return mapper.map(productDescriptionRepository.save(des), ProductDescriptionDto.class);
+		ProductDescription res = productDescriptionRepository.save(des);
+		return Mapper.toProductDescriptionDto(res);
 	}
 
 	@Override
 	public ProductDescriptionDto update(ProductDescriptionDto b) {
 		ProductDescription des = toProductDescription(b);
-		return mapper.map(productDescriptionRepository.save(des), ProductDescriptionDto.class);
+		ProductDescription res = productDescriptionRepository.save(des);
+		return Mapper.toProductDescriptionDto(res);
 	}
 	
 	private ProductDescription toProductDescription(ProductDescriptionDto dto) {
@@ -69,6 +75,7 @@ public class ProductDescriptionServiceImpl implements ProductDescriptionService{
 		des.setFrameRate(dto.getFrameRate());
 		des.setScreenSize(dto.getScreenSize());
 		des.setScreenType(dto.getScreenType());
+		des.setProduct(productRepository.findByProductId(dto.getProductId()));
 		return des;
 	}
 }

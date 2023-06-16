@@ -3,15 +3,16 @@ package com.notimplement.happygear.service.imp;
 import com.notimplement.happygear.entities.Order;
 import com.notimplement.happygear.model.dto.OrderDto;
 import com.notimplement.happygear.model.enums.OrderStatus;
+import com.notimplement.happygear.model.mapper.Mapper;
 import com.notimplement.happygear.repositories.OrderRepository;
 import com.notimplement.happygear.repositories.UserRepository;
 import com.notimplement.happygear.service.OrderService;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,12 +22,11 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
-    private final ModelMapper mapper;
 
     @Override
     public List<OrderDto> getAllOrderDto() {
         return orderRepository.findAll()
-                .stream().map(v -> mapper.map(v, OrderDto.class)).collect(Collectors.toList());
+                .stream().map(Mapper::toOrderDto).collect(Collectors.toList());
     }
 
     @Override
@@ -37,21 +37,22 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderDto> getByUserName(String username) {
         return orderRepository.findByUserName(username)
-                .stream().map(v -> mapper.map(v, OrderDto.class)).collect(Collectors.toList());
+                .stream().map(Mapper::toOrderDto)
+                .collect(Collectors.toList());
     }
 
     @Override
     public OrderDto getByOrderId(Integer id) {
         Order order = orderRepository.findByOrderId(id);
-        return mapper.map(order, OrderDto.class);
+        return Mapper.toOrderDto(order);
     }
 
     @Override
     public OrderDto update(OrderDto orderDto) {
         if(orderDto!=null){
             Order order = toOrder(orderDto);
-            orderRepository.save(order);
-            return mapper.map(order, OrderDto.class);
+            Order res = orderRepository.save(order);
+            return Mapper.toOrderDto(res);
         }
         return null;
     }
@@ -60,8 +61,8 @@ public class OrderServiceImpl implements OrderService {
     public OrderDto create(OrderDto orderDto) {
         if(orderDto!=null) {
             Order order = toOrder(orderDto);
-            orderRepository.save(order);
-            return mapper.map(order, OrderDto.class);
+            Order res = orderRepository.save(order);
+            return Mapper.toOrderDto(res);
         }
         return null;
     }
@@ -70,7 +71,8 @@ public class OrderServiceImpl implements OrderService {
     public OrderDto delete(Integer id) {
         Order order = orderRepository.findByOrderId(id);
         order.setStatus(OrderStatus.CANCEL.getAction());
-        return mapper.map(orderRepository.save(order), OrderDto.class);
+        Order res = orderRepository.save(order);
+        return Mapper.toOrderDto(res);
     }
 
     private Order toOrder(OrderDto orderDto){
