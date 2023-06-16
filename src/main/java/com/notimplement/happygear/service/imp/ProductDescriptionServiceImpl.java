@@ -1,6 +1,7 @@
 package com.notimplement.happygear.service.imp;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -24,7 +25,7 @@ public class ProductDescriptionServiceImpl implements ProductDescriptionService{
 	@Override
 	public List<ProductDescriptionDto> listAll() {
 		return productDescriptionRepository.findAll()
-				.stream().map(v -> mapper.map(v, ProductDescriptionDto.class)).toList();
+				.stream().map(v -> mapper.map(v, ProductDescriptionDto.class)).collect(Collectors.toList());
 	}
 
 	@Override

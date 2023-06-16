@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -29,7 +30,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     @Override
     public List<OrderDetailDto> getAllOrderDetailDto() {
         return orderDetailRepository.findAll()
-                .stream().map(v -> mapper.map(v, OrderDetailDto.class)).toList();
+                .stream().map(v -> mapper.map(v, OrderDetailDto.class)).collect(Collectors.toList());
     }
 
     @Override
@@ -46,13 +47,13 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     @Override
     public List<OrderDetailDto> getAllByOrderId(Integer id) {
         return orderDetailRepository.findAllByOrderId(id)
-                .stream().map(v -> mapper.map(v, OrderDetailDto.class)).toList();
+                .stream().map(v -> mapper.map(v, OrderDetailDto.class)).collect(Collectors.toList());
     }
 
     @Override
     public List<OrderDetailDto> getAllByProductId(Integer id) {
         return orderDetailRepository.findAllByProductId(id)
-                .stream().map(v -> mapper.map(v, OrderDetailDto.class)).toList();
+                .stream().map(v -> mapper.map(v, OrderDetailDto.class)).collect(Collectors.toList());
     }
 
     @Override
