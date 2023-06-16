@@ -2,7 +2,6 @@ package com.notimplement.happygear.service.imp;
 
 import com.notimplement.happygear.entities.Comment;
 import com.notimplement.happygear.model.dto.CommentDto;
-import com.notimplement.happygear.model.mapper.CommentMapper;
 import com.notimplement.happygear.repositories.CommentRepository;
 import com.notimplement.happygear.repositories.ProductRepository;
 import com.notimplement.happygear.repositories.UserRepository;
@@ -82,7 +81,7 @@ public class CommentServiceImpl implements CommentService {
         if (commentDto != null) {
             Comment newComment = toComment(commentDto);
             commentRepository.save(newComment);
-            return CommentMapper.toCommentDto(newComment);
+            return mapper.map(newComment, CommentDto.class);
         }
         return null;
     }
@@ -93,7 +92,7 @@ public class CommentServiceImpl implements CommentService {
         if (comment != null) {
             comment.setContent(commentDto.getContent());
             commentRepository.save(comment);
-            return CommentMapper.toCommentDto(comment);
+            return mapper.map(comment, CommentDto.class);
         }
         return null;
     }
@@ -123,7 +122,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<CommentDto> getAllChildCommentByParentComment(String id) {
         return commentRepository.findByCommentParentId(id)
-                .stream().map(CommentMapper::toCommentDto).collect(Collectors.toList());
+                .stream().map(v -> mapper.map(v, CommentDto.class)).collect(Collectors.toList());
     }
 
     private Comment toComment(CommentDto commentDto) {

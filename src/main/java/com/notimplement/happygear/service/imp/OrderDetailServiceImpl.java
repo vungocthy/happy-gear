@@ -4,7 +4,6 @@ import com.notimplement.happygear.entities.OrderDetail;
 import com.notimplement.happygear.entities.Product;
 import com.notimplement.happygear.model.dto.CartItemDto;
 import com.notimplement.happygear.model.dto.OrderDetailDto;
-import com.notimplement.happygear.model.mapper.OrderDetailMapper;
 import com.notimplement.happygear.repositories.OrderDetailRepository;
 import com.notimplement.happygear.repositories.OrderRepository;
 import com.notimplement.happygear.repositories.ProductRepository;
@@ -41,7 +40,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     @Override
     public OrderDetailDto getByDetailId(Integer id) {
         OrderDetail orderDetail = orderDetailRepository.findByDetailId(id);
-        return OrderDetailMapper.toOrderDetailDto(orderDetail);
+        return mapper.map(orderDetail, OrderDetailDto.class);
     }
 
     @Override
@@ -59,9 +58,9 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     @Override
     public OrderDetailDto create(OrderDetailDto orderDetailDto) {
         if (orderDetailDto != null) {
-            OrderDetail od = toOrderDetail(orderDetailDto);
-            orderDetailRepository.save(od);
-            return OrderDetailMapper.toOrderDetailDto(od);
+            OrderDetail orderDetail = toOrderDetail(orderDetailDto);
+            orderDetailRepository.save(orderDetail);
+            return mapper.map(orderDetail, OrderDetailDto.class);
         }
         return null;
     }
@@ -69,18 +68,18 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     @Override
     public OrderDetailDto update(OrderDetailDto orderDetailDto) {
         if (orderDetailDto != null) {
-            OrderDetail od = toOrderDetail(orderDetailDto);
-            orderDetailRepository.save(od);
-            return OrderDetailMapper.toOrderDetailDto(od);
+            OrderDetail orderDetail = toOrderDetail(orderDetailDto);
+            orderDetailRepository.save(orderDetail);
+            return mapper.map(orderDetail, OrderDetailDto.class);
         }
         return null;
     }
 
     @Override
     public OrderDetailDto delete(Integer id) {
-        OrderDetail od = orderDetailRepository.findByDetailId(id);
-        od.setStatus(false);
-        return OrderDetailMapper.toOrderDetailDto(orderDetailRepository.save(od));
+        OrderDetail orderDetail = orderDetailRepository.findByDetailId(id);
+        orderDetail.setStatus(false);
+        return mapper.map(orderDetailRepository.save(orderDetail), OrderDetailDto.class);
     }
 
     @Override

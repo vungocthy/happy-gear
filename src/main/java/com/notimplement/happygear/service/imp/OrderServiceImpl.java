@@ -3,7 +3,6 @@ package com.notimplement.happygear.service.imp;
 import com.notimplement.happygear.entities.Order;
 import com.notimplement.happygear.model.dto.OrderDto;
 import com.notimplement.happygear.model.enums.OrderStatus;
-import com.notimplement.happygear.model.mapper.OrderMapper;
 import com.notimplement.happygear.repositories.OrderRepository;
 import com.notimplement.happygear.repositories.UserRepository;
 import com.notimplement.happygear.service.OrderService;
@@ -43,7 +42,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto getByOrderId(Integer id) {
         Order order = orderRepository.findByOrderId(id);
-        return OrderMapper.toOrderDto(order);
+        return mapper.map(order, OrderDto.class);
     }
 
     @Override
@@ -51,7 +50,7 @@ public class OrderServiceImpl implements OrderService {
         if(orderDto!=null){
             Order order = toOrder(orderDto);
             orderRepository.save(order);
-            return OrderMapper.toOrderDto(order);
+            return mapper.map(order, OrderDto.class);
         }
         return null;
     }
@@ -61,7 +60,7 @@ public class OrderServiceImpl implements OrderService {
         if(orderDto!=null) {
             Order order = toOrder(orderDto);
             orderRepository.save(order);
-            return OrderMapper.toOrderDto(order);
+            return mapper.map(order, OrderDto.class);
         }
         return null;
     }
@@ -70,7 +69,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderDto delete(Integer id) {
         Order order = orderRepository.findByOrderId(id);
         order.setStatus(OrderStatus.CANCEL.getAction());
-        return OrderMapper.toOrderDto(orderRepository.save(order));
+        return mapper.map(orderRepository.save(order), OrderDto.class);
     }
 
     private Order toOrder(OrderDto orderDto){

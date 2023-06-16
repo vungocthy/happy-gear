@@ -3,21 +3,20 @@ package com.notimplement.happygear.service.imp;
 import com.notimplement.happygear.entities.User;
 import com.notimplement.happygear.model.dto.AccountDto;
 import com.notimplement.happygear.model.dto.UserDto;
-import com.notimplement.happygear.model.mapper.UserMapper;
 import com.notimplement.happygear.repositories.RoleRepository;
 import com.notimplement.happygear.repositories.UserRepository;
 import com.notimplement.happygear.service.UserService;
 import lombok.RequiredArgsConstructor;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -26,13 +25,14 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final ModelMapper mapper;
 
     @Override
     public List<UserDto> getAllUserDto() {
-        List<User> listUser = userRepository.findAll();
-        List<UserDto> listUserDto = new ArrayList<>();
-        listUser.forEach(u -> listUserDto.add(UserMapper.toUserDto(u)));
-        return listUserDto;
+        return userRepository.findAll()
+                .stream()
+                .map(v -> mapper.map(v, UserDto.class))
+                .toList();
     }
 
     @Override
@@ -67,28 +67,28 @@ public class UserServiceImpl implements UserService {
         String password = accountDto.getPassword();
         User user = userRepository.findByUsernameAndPassword(username,password);
         if(user!=null){
-            return UserMapper.toUserDto(user);
+            return mapper.map(user, UserDto.class);
         }
         return null;
     }
 
     @Override
     public UserDto getByUserName(String username) {
-        return UserMapper.toUserDto(userRepository.findByUsername(username).orElseThrow());
+        return mapper.map(userRepository.findByUsername(username).orElseThrow(), UserDto.class);
     }
 
     @Override
     public List<UserDto> getAllActiveUser() {
-        List<User> listUser = userRepository.findAllUserWithActiveStatus();
-        List<UserDto> listUserDto = new ArrayList<>();
-        listUser.forEach(u -> listUserDto.add(UserMapper.toUserDto(u)));
-        return listUserDto;
+        return userRepository.findAllUserWithActiveStatus()
+                .stream()
+                .map(v -> mapper.map(v, UserDto.class))
+                .toList();
     }
 
     @Override
     public UserDto saveUser(UserDto userDto) {
         User user = toUser(userDto);
-        return UserMapper.toUserDto(userRepository.save(user));
+        return mapper.map(userRepository.save(user), UserDto.class);
     }
 
     @Override
@@ -107,7 +107,7 @@ public class UserServiceImpl implements UserService {
                     .status(false)
                     .build();
             userRepository.save(savedUser);
-            return UserMapper.toUserDto(savedUser);
+            return mapper.map(savedUser, UserDto.class);
         }
         return null;
     }
@@ -118,7 +118,7 @@ public class UserServiceImpl implements UserService {
         if(user!=null){
             User updatedUser = toUser(userDto);
             userRepository.save(updatedUser);
-            return UserMapper.toUserDto(updatedUser);
+            return mapper.map(updatedUser, UserDto.class);
         }
         return null;
     }
@@ -128,17 +128,17 @@ public class UserServiceImpl implements UserService {
         User user = toUser(userDto);
         if(user!=null){
             userRepository.save(user);
-            return UserMapper.toUserDto(user);
+            return mapper.map(user, UserDto.class);
         }
         return null;
     }
 
     @Override
     public List<UserDto> searchByFullName(String name) {
-        List<User> listUser = userRepository.findByFullNameContainingIgnoreCase(name);
-        List<UserDto> listUserDto = new ArrayList<>();
-        listUser.forEach(u -> listUserDto.add(UserMapper.toUserDto(u)));
-        return listUserDto;
+        return userRepository.findByFullNameContainingIgnoreCase(name)
+                .stream()
+                .map(v -> mapper.map(v, UserDto.class))
+                .toList();
     }
 
     private User toUser(UserDto dto){
@@ -162,7 +162,9 @@ public class UserServiceImpl implements UserService {
 	public Map<List<UserDto>, Long> listByPage(Pageable p) {
 		Map<List<UserDto>, Long> pair = new HashMap<List<UserDto>, Long>();
 		Page<User> pageList = userRepository.findAll(p);
-		pair.put(pageList.stream().map(UserMapper::toUserDto).collect(Collectors.toList()), pageList.getTotalElements());
+		pair.put(
+            pageList.stream().map(v -> mapper.map(v, UserDto.class)).toList(), 
+            pageList.getTotalElements());
 		return pair;
 	}
 }

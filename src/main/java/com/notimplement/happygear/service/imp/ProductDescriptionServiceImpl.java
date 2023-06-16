@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.notimplement.happygear.entities.ProductDescription;
 import com.notimplement.happygear.model.dto.ProductDescriptionDto;
-import com.notimplement.happygear.model.mapper.ProductDescriptionMapper;
 import com.notimplement.happygear.repositories.ProductDescriptionRepository;
 import com.notimplement.happygear.service.ProductDescriptionService;
 
@@ -30,19 +29,19 @@ public class ProductDescriptionServiceImpl implements ProductDescriptionService{
 
 	@Override
 	public ProductDescriptionDto getById(Integer id) {
-		return ProductDescriptionMapper.toProductDescriptionDto(productDescriptionRepository.findById(id).get());
+		return mapper.map(productDescriptionRepository.findById(id).get(), ProductDescriptionDto.class);
 	}
 
 	@Override
 	public ProductDescriptionDto create(ProductDescriptionDto b) {
 		ProductDescription des = toProductDescription(b);
-		return ProductDescriptionMapper.toProductDescriptionDto(productDescriptionRepository.save(des));
+		return mapper.map(productDescriptionRepository.save(des), ProductDescriptionDto.class);
 	}
 
 	@Override
 	public ProductDescriptionDto update(ProductDescriptionDto b) {
 		ProductDescription des = toProductDescription(b);
-		return ProductDescriptionMapper.toProductDescriptionDto(productDescriptionRepository.save(des));
+		return mapper.map(productDescriptionRepository.save(des), ProductDescriptionDto.class);
 	}
 	
 	private ProductDescription toProductDescription(ProductDescriptionDto dto) {
