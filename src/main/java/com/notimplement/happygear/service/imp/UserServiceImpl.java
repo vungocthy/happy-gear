@@ -8,7 +8,6 @@ import com.notimplement.happygear.repositories.RoleRepository;
 import com.notimplement.happygear.repositories.UserRepository;
 import com.notimplement.happygear.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -42,7 +41,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto signupAcc(UserDto userDto) {
+    public UserDto signup(UserDto userDto) {
         String fullName = userDto.getFullName();
         String userName = userDto.getUsername();
         String address = userDto.getAddress();
@@ -63,7 +62,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto loginAcc(AccountDto accountDto) {
+    public UserDto login(AccountDto accountDto) {
         String username = accountDto.getUsername();
         String password = accountDto.getPassword();
         User user = userRepository.findByUsernameAndPassword(username,password);

@@ -1,6 +1,5 @@
 package com.notimplement.happygear.service.imp;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -25,10 +24,9 @@ public class BrandServiceImpl implements BrandService{
 	
 	@Override
 	public List<BrandDto> listAll() {
-		List<Brand> listBrand = brandRepository.findAll();
-		List<BrandDto> listBrandDto = new ArrayList<>();
-		listBrand.forEach(v -> listBrandDto.add(mapper.map(v, BrandDto.class)));
-		return listBrandDto;
+		return brandRepository.findAll()
+				.stream().map(v -> mapper.map(v, BrandDto.class))
+				.toList();
 	}
 
 	@Override

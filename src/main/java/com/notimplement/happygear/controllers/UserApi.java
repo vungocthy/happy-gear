@@ -4,7 +4,6 @@ import com.notimplement.happygear.model.dto.AccountDto;
 import com.notimplement.happygear.model.dto.UserDto;
 import com.notimplement.happygear.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -67,7 +66,7 @@ public class UserApi {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AccountDto accountDto){
-        UserDto userDto = userService.loginAcc(accountDto);
+        UserDto userDto = userService.login(accountDto);
         if(userDto!=null)
             return ResponseEntity.ok(userDto);
         return ResponseEntity.notFound().build();
@@ -75,7 +74,7 @@ public class UserApi {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody UserDto userDto){
-        UserDto user = userService.signupAcc(userDto);
+        UserDto user = userService.signup(userDto);
         return ResponseEntity.ok(user);
     }
 }

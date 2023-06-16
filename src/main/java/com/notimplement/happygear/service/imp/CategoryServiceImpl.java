@@ -1,6 +1,5 @@
 package com.notimplement.happygear.service.imp;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -23,10 +22,10 @@ public class CategoryServiceImpl implements CategoryService{
 	
 	@Override
 	public List<CategoryDto> listAll() {
-		List<Category> list = categoryRepository.findAll();
-		List<CategoryDto> listDto = new ArrayList<>();
-		list.forEach(v -> listDto.add(mapper.map(v, CategoryDto.class)));
-		return listDto;
+		return categoryRepository.findAll()
+			.stream()
+			.map(v -> mapper.map(v, CategoryDto.class))
+			.toList();
 	}
 
 	@Override

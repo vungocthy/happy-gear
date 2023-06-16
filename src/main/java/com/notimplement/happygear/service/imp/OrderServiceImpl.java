@@ -9,12 +9,10 @@ import com.notimplement.happygear.repositories.UserRepository;
 import com.notimplement.happygear.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -28,7 +26,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderDto> getAllOrderDto() {
         return orderRepository.findAll()
-                .stream().map(OrderMapper::toOrderDto).collect(Collectors.toList());
+                .stream().map(v -> mapper.map(v, OrderDto.class)).toList();
     }
 
     @Override
@@ -38,9 +36,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderDto> getByUserName(String username) {
-        // return orderRepository.findByUserName(username)
-        //         .stream().map(OrderMapper::toOrderDto).collect(Collectors.toList());
-        return null;
+        return orderRepository.findByUserName(username)
+                .stream().map(v -> mapper.map(v, OrderDto.class)).toList();
     }
 
     @Override

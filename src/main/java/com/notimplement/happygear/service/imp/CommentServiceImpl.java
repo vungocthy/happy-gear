@@ -32,7 +32,10 @@ public class CommentServiceImpl implements CommentService {
     public List<CommentDto> getAllComment() {
         List<CommentDto> res = new ArrayList<>();
         List<CommentDto> list = commentRepository.findAll()
-                .stream().map(CommentMapper::toCommentDto).collect(Collectors.toList());
+                .stream()
+                .map(v -> mapper.map(v, CommentDto.class))
+                .toList();
+        
         list.forEach(c -> {
             if (c.getCommentParentId() == null) {
                 c.setReplies(getAllChildCommentByParentComment(c.getCommentId()));
@@ -46,24 +49,25 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<CommentDto> getCommentByProductId(Integer id) {
-        // List<CommentDto> res = new ArrayList<>();
-        // List<CommentDto> list = commentRepository.findAllByProductId(id)
-        //         .stream().map(CommentMapper::toCommentDto).collect(Collectors.toList());
-        // list.forEach(c -> {
-        //     CommentDto commentDto = getCommentById(c.getCommentId());
-        //     if(commentDto.getCommentParentId() == null) {
-        //         res.add(commentDto);
-        //     }
-        // });
-        // return res;
-        return null;
+        List<CommentDto> res = new ArrayList<>();
+        List<CommentDto> list = commentRepository.findAllByProductId(id)
+                .stream()
+                .map(v -> mapper.map(v, CommentDto.class))
+                .toList();
+        list.forEach(c -> {
+            CommentDto commentDto = getCommentById(c.getCommentId());
+            if(commentDto.getCommentParentId() == null) {
+                res.add(commentDto);
+            }
+        });
+        return res;
     }
 
     @Override
     public CommentDto getCommentById(String id) {
         Comment comment = commentRepository.findByCommentId(id);
         if (comment == null) return null;
-        CommentDto commentDto = CommentMapper.toCommentDto(comment);
+        CommentDto commentDto = mapper.map(comment, CommentDto.class);
         List<CommentDto> child = new ArrayList<>();
         List<CommentDto> replies = getAllChildCommentByParentComment(id);
         for(CommentDto c : replies) {
@@ -112,9 +116,8 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<CommentDto> getAllCommentByUserName(String username) {
-        // return commentRepository.findAllByUserName(username)
-        //         .stream().map(CommentMapper::toCommentDto).collect(Collectors.toList());
-        return null;
+        return commentRepository.findAllByUserName(username)
+                .stream().map(v -> mapper.map(v, CommentDto.class)).toList();
     }
 
     @Override

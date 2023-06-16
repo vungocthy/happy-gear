@@ -10,6 +10,5 @@ public interface ProductPictureService {
 	ProductPictureDto create(ProductPictureDto pic);
 	ProductPictureDto update(ProductPictureDto pic);
 	ProductPictureDto delete(Integer id);
-	List<ProductPictureDto> listByProductIdAndStatus(Integer id, Boolean status);
-	ProductPictureDto getByProductId(Integer id);
+	List<ProductPictureDto> getByProductId(Integer id);
 }

@@ -25,7 +25,14 @@ public class ProductApi {
 
 	@GetMapping("")
 	public ResponseEntity<?> listAllProduct(){
-		return ResponseEntity.ok(productService.listAll());
+		Pageable pageable = PageRequest.of(0,6);
+		Map<List<ProductDto>, Integer> listIntegerMap = productService.listByPage(pageable);
+		List<Object> list = new ArrayList<>();
+		listIntegerMap.forEach((productDtos, integer) -> {
+			list.add(productDtos);
+			list.add(integer);
+		});
+		return ResponseEntity.ok(list);
 	}
 
 	@GetMapping("/{id}")
@@ -41,7 +48,15 @@ public class ProductApi {
 
 	@GetMapping("/")
 	public ResponseEntity<?> listProductByPage(@RequestParam("p") Optional<Integer> p){
-		Pageable pageable = PageRequest.of(p.orElse(0),9);
+
+		if(p.get() > 0){
+			p = Optional.of(p.get() - 1);
+		}
+		else if(p.get() < 0){
+			p = Optional.of(0);
+		}
+
+		Pageable pageable = PageRequest.of(p.orElse(0),6);
 		Map<List<ProductDto>, Integer> listIntegerMap = productService.listByPage(pageable);
 		List<Object> list = new ArrayList<>();
 		listIntegerMap.forEach((productDtos, integer) -> {
@@ -93,12 +108,6 @@ public class ProductApi {
 			list.add(productDtos);
 			list.add(integer);
 		});
-		return ResponseEntity.ok(list);
-	}
-
-	@GetMapping("/best-seller")
-	public ResponseEntity<?> listTop5ProductByQuanity(){
-		List<ProductDto> list = productService.listAllProductWithMinQuantity();
 		return ResponseEntity.ok(list);
 	}
 

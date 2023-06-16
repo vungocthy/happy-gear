@@ -1,6 +1,5 @@
 package com.notimplement.happygear.service.imp;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
@@ -27,10 +26,10 @@ public class ProductPictureServiceImpl implements ProductPictureService{
 	
 	@Override
 	public List<ProductPictureDto> listAll() {
-		List<ProductPicture> list = productPictureRepository.findAll();
-		List<ProductPictureDto> listDto = new ArrayList<>();
-		list.forEach(v -> listDto.add(ProductPictureMapper.toProductPictureDto(v)));
-		return listDto;
+		return productPictureRepository.findAll()
+				.stream()
+				.map(v -> mapper.map(v, ProductPictureDto.class))
+				.toList();
 	}
 
 	@Override
@@ -71,18 +70,10 @@ public class ProductPictureServiceImpl implements ProductPictureService{
 	}
 
 	@Override
-	public List<ProductPictureDto> listByProductIdAndStatus(Integer id, Boolean status) {
-		// List<ProductPicture> list = repo.findByPictureProductAndStatus(getProductById(id), status);
-		// List<ProductPictureDto> listDto = new ArrayList<>();
-		// list.forEach(v -> listDto.add(ProductPictureMapper.toProductPictureDto(v)));
-		// return listDto;
-		return null;
-	}
-
-	@Override
-	public ProductPictureDto getByProductId(Integer id) {
-		// ProductPicture picture = repo.getMainByProductId(id);
-		// return ProductPictureMapper.toProductPictureDto(picture);
-		return null;
+	public List<ProductPictureDto> getByProductId(Integer id) {
+		return productPictureRepository.findByProductId(id)
+				.stream()
+				.map(v -> mapper.map(v, ProductPictureDto.class))
+				.toList();
 	}
 }

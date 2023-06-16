@@ -2,14 +2,14 @@ package com.notimplement.happygear.service.imp;
 
 import com.notimplement.happygear.entities.Role;
 import com.notimplement.happygear.model.dto.RoleDto;
-import com.notimplement.happygear.model.mapper.RoleMapper;
 import com.notimplement.happygear.repositories.RoleRepository;
 import com.notimplement.happygear.service.RoleService;
 import lombok.RequiredArgsConstructor;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,33 +19,30 @@ import java.util.Optional;
 public class RoleServiceImpl implements RoleService {
 
     private final RoleRepository roleRepository;
+    private final ModelMapper mapper;
 
     @Override
     public RoleDto getRoleById(Integer id) {
         Role role = roleRepository.findByRoleId(id);
         if(role!=null){
-            return RoleMapper.toRoleDTO(role);
+            return mapper.map(role, RoleDto.class);
         }
         return null;
     }
 
     @Override
     public List<RoleDto> getAllRoleDto() {
-        List<Role> listRole = roleRepository.findAll();
-        List<RoleDto> listRoleDto = new ArrayList<>();
-        listRole.forEach(r -> listRoleDto.add(RoleMapper.toRoleDTO(r)));
-        return listRoleDto;
+       return roleRepository.findAll()
+               .stream()
+               .map(v -> mapper.map(v, RoleDto.class))
+               .toList();
     }
 
     @Override
     public RoleDto updateRole(RoleDto roleDto, Integer id) {
         Role role = roleRepository.findByRoleId(id);
         if(role!=null){
-            RoleDto roledto = new RoleDto();
-            roledto.setRoleId(roleDto.getRoleId());
-            roledto.setRoleName(roleDto.getRoleName());
-            roledto.setStatus(roleDto.getStatus());
-            return roledto;
+            return mapper.map(role, RoleDto.class);
         }
         return null;
     }
@@ -54,18 +51,14 @@ public class RoleServiceImpl implements RoleService {
     public RoleDto createRole(RoleDto roleDto) {
         Role role = toRole(roleDto);
         roleRepository.save(role);
-        return RoleMapper.toRoleDTO(role);
+        return mapper.map(role, RoleDto.class);
     }
 
     @Override
     public RoleDto removeRole(Integer id) {
         Optional<Role> role = roleRepository.findById(id);
         if(role.isPresent()){
-            RoleDto roledto = new RoleDto();
-            roledto.setRoleId(role.get().getRoleId());
-            roledto.setRoleName(role.get().getRoleName());
-            roledto.setStatus(false);
-            return roledto;
+            return mapper.map(role.get(), RoleDto.class);
         }
         return null;
     }

@@ -1,18 +1,15 @@
 package com.notimplement.happygear.service.imp;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.notimplement.happygear.entities.ProductDescription;
 import com.notimplement.happygear.model.dto.ProductDescriptionDto;
 import com.notimplement.happygear.model.mapper.ProductDescriptionMapper;
-import com.notimplement.happygear.repositories.CategoryRepository;
 import com.notimplement.happygear.repositories.ProductDescriptionRepository;
 import com.notimplement.happygear.service.ProductDescriptionService;
 
@@ -23,15 +20,12 @@ import com.notimplement.happygear.service.ProductDescriptionService;
 public class ProductDescriptionServiceImpl implements ProductDescriptionService{
 
 	private final ProductDescriptionRepository productDescriptionRepository;
-	private final CategoryRepository categoryRepository;
 	private final ModelMapper mapper;
 	
 	@Override
 	public List<ProductDescriptionDto> listAll() {
-		List<ProductDescription> list = productDescriptionRepository.findAll();
-		List<ProductDescriptionDto> listDto = new ArrayList<>();
-		list.forEach(v -> listDto.add(ProductDescriptionMapper.toProductDescriptionDto(v)));
-		return listDto;
+		return productDescriptionRepository.findAll()
+				.stream().map(v -> mapper.map(v, ProductDescriptionDto.class)).toList();
 	}
 
 	@Override

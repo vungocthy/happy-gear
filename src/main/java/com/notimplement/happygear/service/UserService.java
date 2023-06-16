@@ -12,8 +12,8 @@ import org.springframework.data.domain.Pageable;
 public interface UserService {
     List<UserDto> getAllUserDto();
     List<User> getAllUser();
-    UserDto signupAcc(UserDto userDto);
-    UserDto loginAcc(AccountDto accountDto);
+    UserDto signup(UserDto userDto);
+    UserDto login(AccountDto accountDto);
     List<UserDto> getAllActiveUser();
     UserDto saveUser(UserDto userDto);
     UserDto deleteUser(String username);
