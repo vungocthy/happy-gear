@@ -4,6 +4,7 @@ import com.notimplement.happygear.model.dto.*;
 import com.notimplement.happygear.service.OrderDetailService;
 import com.notimplement.happygear.service.OrderService;
 import com.notimplement.happygear.service.UserService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,19 +15,15 @@ import javax.validation.Valid;
 import java.sql.Date;
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/orders")
-@Slf4j
+@RequiredArgsConstructor
 public class OrderApi {
 
-    @Autowired
-    OrderService orderService;
-
-    @Autowired
-    OrderDetailService orderDetailService;
-
-    @Autowired
-    UserService userService;
+    private final OrderService orderService;
+    private final OrderDetailService orderDetailService;
+    private final UserService userService;
 
     @GetMapping("")
     public ResponseEntity<?> getAllOrder(){

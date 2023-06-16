@@ -9,7 +9,9 @@ import com.notimplement.happygear.repositories.OrderDetailRepository;
 import com.notimplement.happygear.repositories.OrderRepository;
 import com.notimplement.happygear.repositories.ProductRepository;
 import com.notimplement.happygear.service.OrderDetailService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,16 +19,15 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @Transactional
-@Slf4j
+@RequiredArgsConstructor
 public class OrderDetailServiceImpl implements OrderDetailService {
-    @Autowired
-    OrderDetailRepository orderDetailRepository;
-    @Autowired
-    OrderRepository orderRepository;
-    @Autowired
-    ProductRepository productRepository;
+    private final OrderDetailRepository orderDetailRepository;
+    private final OrderRepository orderRepository;
+    private final ProductRepository productRepository;
+    private final ModelMapper mapper;
 
     @Override
     public List<OrderDetailDto> getAllOrderDetailDto() {

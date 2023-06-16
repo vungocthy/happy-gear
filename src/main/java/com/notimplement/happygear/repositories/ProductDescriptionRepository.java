@@ -4,7 +4,8 @@ package com.notimplement.happygear.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.notimplement.happygear.entities.ProductDescription;
+import org.springframework.stereotype.Repository;
 
-public interface ProductDescriptionRepository extends JpaRepository<ProductDescription, Integer>{
-	
+@Repository
+public interface ProductDescriptionRepository extends JpaRepository<ProductDescription, Integer> {
 }

@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.notimplement.happygear.entities.Brand;
 import com.notimplement.happygear.model.dto.BrandDto;
-import com.notimplement.happygear.model.mapper.BrandMapper;
 import com.notimplement.happygear.repositories.BrandRepository;
 import com.notimplement.happygear.service.BrandService;
 
@@ -41,20 +40,20 @@ public class BrandServiceImpl implements BrandService{
 	@Override
 	public BrandDto create(BrandDto b) {
 		Brand brand = toBrand(b);
-		return BrandMapper.toBrandDto(brandRepository.save(brand));
+		return mapper.map(brandRepository.save(brand), BrandDto.class);
 	}
 
 	@Override
 	public BrandDto update(BrandDto b) {
 		Brand brand = toBrand(b);
-		return BrandMapper.toBrandDto(brandRepository.save(brand));
+		return mapper.map(brandRepository.save(brand), BrandDto.class);
 	}
 
 	@Override
 	public BrandDto delete(Integer id) {
 		Brand brand = brandRepository.findById(id).get();
 		brand.setStatus(false);
-		return BrandMapper.toBrandDto(brandRepository.save(brand));
+		return mapper.map(brandRepository.save(brand), BrandDto.class);
 	}
 	
 	private Brand toBrand(BrandDto dto) {
@@ -63,13 +62,5 @@ public class BrandServiceImpl implements BrandService{
 		brand.setBrandName(dto.getBrandName());
 		brand.setStatus(dto.getStatus());
 		return brand;
-	}
-
-	@Override
-	public List<BrandDto> listAllForCus() {
-		List<Brand> list = brandRepository.findByStatus(true);
-		List<BrandDto> listDto = new ArrayList<>();
-		list.forEach(v -> listDto.add(BrandMapper.toBrandDto(v)));
-		return listDto;
 	}
 }

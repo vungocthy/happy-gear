@@ -5,18 +5,20 @@ import com.notimplement.happygear.model.dto.RoleDto;
 import com.notimplement.happygear.model.mapper.RoleMapper;
 import com.notimplement.happygear.repositories.RoleRepository;
 import com.notimplement.happygear.service.RoleService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class RoleServiceImpl implements RoleService {
 
-    @Autowired
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
     @Override
     public RoleDto getRoleById(Integer id) {

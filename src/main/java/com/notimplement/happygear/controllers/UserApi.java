@@ -3,6 +3,7 @@ package com.notimplement.happygear.controllers;
 import com.notimplement.happygear.model.dto.AccountDto;
 import com.notimplement.happygear.model.dto.UserDto;
 import com.notimplement.happygear.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,10 +17,10 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/users")
+@RequiredArgsConstructor
 public class UserApi {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
     @GetMapping("")
     public ResponseEntity<?> getAllUser(){

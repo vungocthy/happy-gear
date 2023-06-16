@@ -10,5 +10,4 @@ public interface BrandService {
 	BrandDto create(BrandDto b);
 	BrandDto update(BrandDto b);
 	BrandDto delete(Integer id);
-	List<BrandDto> listAllForCus();
 }

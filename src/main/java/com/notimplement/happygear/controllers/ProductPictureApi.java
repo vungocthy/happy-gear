@@ -2,6 +2,7 @@ package com.notimplement.happygear.controllers;
 
 import com.notimplement.happygear.model.dto.ProductPictureDto;
 import com.notimplement.happygear.service.ProductPictureService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,9 +12,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/pictures")
+@RequiredArgsConstructor
 public class ProductPictureApi {
-	@Autowired
-	ProductPictureService service;
+
+	private final ProductPictureService service;
 	
 	@GetMapping("")
 	public ResponseEntity<?> listAllProductPicture(){

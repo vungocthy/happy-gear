@@ -7,7 +7,10 @@ import com.notimplement.happygear.repositories.CommentRepository;
 import com.notimplement.happygear.repositories.ProductRepository;
 import com.notimplement.happygear.repositories.UserRepository;
 import com.notimplement.happygear.service.CommentService;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.RequiredArgsConstructor;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -17,17 +20,16 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService {
 
-    @Autowired
-    private CommentRepository commentRepository;
-    @Autowired
-    private ProductRepository productRepository;
-    @Autowired
-    private UserRepository userRepository;
+    private final CommentRepository commentRepository;
+    private final ProductRepository productRepository;
+    private final UserRepository userRepository;
+    private final ModelMapper mapper;
 
     @Override
-    public List<CommentDto> getAllCommentDto() {
+    public List<CommentDto> getAllComment() {
         List<CommentDto> res = new ArrayList<>();
         List<CommentDto> list = commentRepository.findAll()
                 .stream().map(CommentMapper::toCommentDto).collect(Collectors.toList());
@@ -55,11 +57,6 @@ public class CommentServiceImpl implements CommentService {
         // });
         // return res;
         return null;
-    }
-
-    @Override
-    public List<Comment> getAllComment() {
-        return commentRepository.findAll();
     }
 
     @Override

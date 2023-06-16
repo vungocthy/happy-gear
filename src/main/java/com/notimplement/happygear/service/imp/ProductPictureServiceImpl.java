@@ -3,7 +3,8 @@ package com.notimplement.happygear.service.imp;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,16 +18,16 @@ import com.notimplement.happygear.service.ProductPictureService;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class ProductPictureServiceImpl implements ProductPictureService{
-	
-	@Autowired
-	ProductPictureRepository repo;
-	@Autowired
-	ProductRepository productRepo;
+
+	private final ProductPictureRepository productPictureRepository;
+	private final ProductRepository productRepository;
+	private final ModelMapper mapper;
 	
 	@Override
 	public List<ProductPictureDto> listAll() {
-		List<ProductPicture> list = repo.findAll();
+		List<ProductPicture> list = productPictureRepository.findAll();
 		List<ProductPictureDto> listDto = new ArrayList<>();
 		list.forEach(v -> listDto.add(ProductPictureMapper.toProductPictureDto(v)));
 		return listDto;
@@ -34,26 +35,26 @@ public class ProductPictureServiceImpl implements ProductPictureService{
 
 	@Override
 	public ProductPictureDto getById(Integer id) {
-		return ProductPictureMapper.toProductPictureDto(repo.findById(id).get());
+		return ProductPictureMapper.toProductPictureDto(productPictureRepository.findById(id).get());
 	}
 
 	@Override
 	public ProductPictureDto create(ProductPictureDto b) {
 		ProductPicture pic = toProductPicture(b);
-		return ProductPictureMapper.toProductPictureDto(repo.save(pic));
+		return ProductPictureMapper.toProductPictureDto(productPictureRepository.save(pic));
 	}
 
 	@Override
 	public ProductPictureDto update(ProductPictureDto b) {
 		ProductPicture pic = toProductPicture(b);
-		return ProductPictureMapper.toProductPictureDto(repo.save(pic));
+		return ProductPictureMapper.toProductPictureDto(productPictureRepository.save(pic));
 	}
 
 	@Override
 	public ProductPictureDto delete(Integer id) {
-		ProductPicture pic = repo.findById(id).get();
+		ProductPicture pic = productPictureRepository.findById(id).get();
 		pic.setStatus(false);
-		return ProductPictureMapper.toProductPictureDto(repo.save(pic));
+		return ProductPictureMapper.toProductPictureDto(productPictureRepository.save(pic));
 	}
 	
 	private ProductPicture toProductPicture(ProductPictureDto dto) {
@@ -66,7 +67,7 @@ public class ProductPictureServiceImpl implements ProductPictureService{
 	}
 	
 	private Product getProductById(Integer id) {
-		return productRepo.findById(id).get();
+		return productRepository.findById(id).get();
 	}
 
 	@Override

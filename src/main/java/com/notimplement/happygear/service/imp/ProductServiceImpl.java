@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,18 +26,15 @@ import com.notimplement.happygear.service.ProductService;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService{
-
-	@Autowired
-	ProductRepository repo;
-	@Autowired
-	BrandRepository brandRepo;
-	@Autowired
-	CategoryRepository cateRepo;
+	private final ProductRepository productRepository;
+	private final BrandRepository brandRepository;
+	private final CategoryRepository categoryRepository;
 	
 	@Override
 	public List<ProductDto> listAll() {
-		List<Product> list = repo.findAll();
+		List<Product> list = productRepository.findAll();
 		List<ProductDto> listDto = new ArrayList<>();
 		list.forEach(v -> listDto.add(ProductMapper.toProductDto(v)));
 		return listDto;
@@ -45,7 +43,7 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public Map<List<ProductDto>, Integer> listByPage(Pageable pageable){
 		Map<List<ProductDto>, Integer> pair = new HashMap<List<ProductDto>, Integer>();
-		Page<Product> pageList = repo.findAll(pageable);
+		Page<Product> pageList = productRepository.findAll(pageable);
 		pair.put(pageList.stream().map(ProductMapper::toProductDto).collect(Collectors.toList()), pageList.getTotalPages());
 		return pair;
 	}
@@ -62,7 +60,7 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public Map<List<ProductDto>, Long> listByPageAndName(String productName, Pageable pageable) {
 		Map<List<ProductDto>, Long> pair = new HashMap<List<ProductDto>, Long>();
-		Page<Product> pageList = repo.findByProductNameContaining(productName, pageable);
+		Page<Product> pageList = productRepository.findByProductNameContaining(productName, pageable);
 		pair.put(pageList.stream().map(ProductMapper::toProductDto).collect(Collectors.toList()), pageList.getTotalElements());
 		return pair;
 	}
@@ -70,7 +68,7 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public Map<List<ProductDto>, Integer> listProductByName(String productName, Pageable pageable){
 		Map<List<ProductDto>, Integer> pair = new HashMap<List<ProductDto>, Integer>();
-		Page<Product> pageList = repo.findByProductNameContainingIgnoreCase(productName, pageable);
+		Page<Product> pageList = productRepository.findByProductNameContainingIgnoreCase(productName, pageable);
 		pair.put(pageList.stream().map(ProductMapper::toProductDto).collect(Collectors.toList()), pageList.getTotalPages());
 		return pair;
 	}
@@ -91,26 +89,26 @@ public class ProductServiceImpl implements ProductService{
 
 	@Override
 	public ProductDto getById(Integer id) {
-		return ProductMapper.toProductDto(repo.findById(id).get());
+		return ProductMapper.toProductDto(productRepository.findById(id).get());
 	}
 
 	@Override
 	public ProductDto create(ProductDto b) {
 		Product p = toProduct(b);
-		return ProductMapper.toProductDto(repo.save(p));
+		return ProductMapper.toProductDto(productRepository.save(p));
 	}
 
 	@Override
 	public ProductDto update(ProductDto b) {
 		Product p = toProduct(b);
-		return ProductMapper.toProductDto(repo.save(p));
+		return ProductMapper.toProductDto(productRepository.save(p));
 	}
 
 	@Override
 	public ProductDto delete(Integer id) {
-		Product p = repo.findById(id).get();
+		Product p = productRepository.findById(id).get();
 		p.setStatus(false);
-		return ProductMapper.toProductDto(repo.save(p));
+		return ProductMapper.toProductDto(productRepository.save(p));
 	}
 	
 	private Product toProduct(ProductDto dto) {
@@ -127,28 +125,28 @@ public class ProductServiceImpl implements ProductService{
 	}
 	
 	private Category getCateById(Integer id) {
-		return cateRepo.findById(id).get();
+		return categoryRepository.findById(id).get();
 	}
 	
 	private Brand getBrandById(Integer id) {
-		return brandRepo.findById(id).get();
+		return brandRepository.findById(id).get();
 	}
 	
 	public Long totalProduct() {
-		Long total = repo.count();
+		Long total = productRepository.count();
 		return total;
 	}
 
 	@Override
 	public Product getProductById(Integer id) {
-		Product p = repo.findById(id).orElse(null);
+		Product p = productRepository.findById(id).orElse(null);
 		return p;
 	}
 
 	@Override
 	public Map<List<Product>, Integer> listAllProductByPage(Pageable pageable) {
 		Map<List<Product>, Integer> pair = new HashMap<>();
-		Page<Product> pageList = repo.findAll(pageable);
+		Page<Product> pageList = productRepository.findAll(pageable);
 		pair.put(pageList.stream().collect(Collectors.toList()), pageList.getTotalPages());
 		return pair;
 	}

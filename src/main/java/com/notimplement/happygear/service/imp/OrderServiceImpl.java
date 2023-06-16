@@ -7,6 +7,8 @@ import com.notimplement.happygear.model.mapper.OrderMapper;
 import com.notimplement.happygear.repositories.OrderRepository;
 import com.notimplement.happygear.repositories.UserRepository;
 import com.notimplement.happygear.service.OrderService;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,11 +18,12 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
-    @Autowired
-    OrderRepository orderRepository;
-    @Autowired
-    UserRepository userRepository;
+
+    private final OrderRepository orderRepository;
+    private final UserRepository userRepository;
+    private final ModelMapper mapper;
 
     @Override
     public List<OrderDto> getAllOrderDto() {

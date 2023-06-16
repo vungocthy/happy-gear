@@ -2,16 +2,17 @@ package com.notimplement.happygear.controllers;
 
 import com.notimplement.happygear.model.dto.OrderDetailDto;
 import com.notimplement.happygear.service.OrderDetailService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/order-detail")
+@RequiredArgsConstructor
 public class OrderDetailApi {
 
-    @Autowired
-    OrderDetailService orderDetailService;
+    private final OrderDetailService orderDetailService;
 
     @GetMapping("")
     public ResponseEntity<?> getAllOrderDetail(){

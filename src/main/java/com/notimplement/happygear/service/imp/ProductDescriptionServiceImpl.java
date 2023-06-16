@@ -3,6 +3,8 @@ package com.notimplement.happygear.service.imp;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,17 +19,16 @@ import com.notimplement.happygear.service.ProductDescriptionService;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class ProductDescriptionServiceImpl implements ProductDescriptionService{
-	
-	@Autowired
-	ProductDescriptionRepository repo;
-	@Autowired
-	CategoryRepository cateRepo;
-	
+
+	private final ProductDescriptionRepository productDescriptionRepository;
+	private final CategoryRepository categoryRepository;
+	private final ModelMapper mapper;
 	
 	@Override
 	public List<ProductDescriptionDto> listAll() {
-		List<ProductDescription> list = repo.findAll();
+		List<ProductDescription> list = productDescriptionRepository.findAll();
 		List<ProductDescriptionDto> listDto = new ArrayList<>();
 		list.forEach(v -> listDto.add(ProductDescriptionMapper.toProductDescriptionDto(v)));
 		return listDto;
@@ -35,19 +36,19 @@ public class ProductDescriptionServiceImpl implements ProductDescriptionService{
 
 	@Override
 	public ProductDescriptionDto getById(Integer id) {
-		return ProductDescriptionMapper.toProductDescriptionDto(repo.findById(id).get());
+		return ProductDescriptionMapper.toProductDescriptionDto(productDescriptionRepository.findById(id).get());
 	}
 
 	@Override
 	public ProductDescriptionDto create(ProductDescriptionDto b) {
 		ProductDescription des = toProductDescription(b);
-		return ProductDescriptionMapper.toProductDescriptionDto(repo.save(des));
+		return ProductDescriptionMapper.toProductDescriptionDto(productDescriptionRepository.save(des));
 	}
 
 	@Override
 	public ProductDescriptionDto update(ProductDescriptionDto b) {
 		ProductDescription des = toProductDescription(b);
-		return ProductDescriptionMapper.toProductDescriptionDto(repo.save(des));
+		return ProductDescriptionMapper.toProductDescriptionDto(productDescriptionRepository.save(des));
 	}
 	
 	private ProductDescription toProductDescription(ProductDescriptionDto dto) {

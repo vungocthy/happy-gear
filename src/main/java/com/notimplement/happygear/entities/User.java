@@ -37,6 +37,9 @@ public class User{
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    @Column(name = "avatar")
+    private String avatar;
+
     @Column(name = "status")
     private Boolean status;
 

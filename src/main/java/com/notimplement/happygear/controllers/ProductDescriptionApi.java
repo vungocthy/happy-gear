@@ -2,6 +2,7 @@ package com.notimplement.happygear.controllers;
 
 import com.notimplement.happygear.model.dto.ProductDescriptionDto;
 import com.notimplement.happygear.service.ProductDescriptionService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,10 +11,11 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("api/descriptions")
+@RequiredArgsConstructor
 public class ProductDescriptionApi {
-	@Autowired
-	ProductDescriptionService service;
-	
+
+	private final ProductDescriptionService service;
+
 	@GetMapping("")
 	public ResponseEntity<?> listAllProductDescription(){
 		return ResponseEntity.ok(service.listAll());
