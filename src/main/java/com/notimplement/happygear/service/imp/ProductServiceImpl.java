@@ -91,19 +91,23 @@ public class ProductServiceImpl implements ProductService{
 
 	@Override
 	public ProductDto getById(Integer id) {
-		return Mapper.toProductDto(productRepository.findById(id).get());
+		Product p = productRepository.findById(id).orElse(null);
+		if(p == null) return null;
+		return Mapper.toProductDto(p);
 	}
 
 	@Override
 	public ProductDto create(ProductDto b) {
 		Product p = toProduct(b);
-		return Mapper.toProductDto(productRepository.save(p));
+		Product res = productRepository.save(p);
+		return Mapper.toProductDto(res);
 	}
 
 	@Override
 	public ProductDto update(ProductDto b) {
 		Product p = toProduct(b);
-		return Mapper.toProductDto(productRepository.save(p));
+		Product res = productRepository.save(p);
+		return Mapper.toProductDto(res);
 	}
 
 	@Override
@@ -123,6 +127,7 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public Product getProductById(Integer id) {
 		Product p = productRepository.findById(id).orElse(null);
+		if(p == null) return null;
 		return p;
 	}
 
