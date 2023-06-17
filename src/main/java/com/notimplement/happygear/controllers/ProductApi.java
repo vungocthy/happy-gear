@@ -36,8 +36,8 @@ public class ProductApi {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<?> test(@PathVariable("id") Integer id){
-		var results = productService.getProductById(id);
+	public ResponseEntity<?> productById(@PathVariable("id") Integer id){
+		var results = productService.getById(id);
 		return ResponseEntity.ok(results);
 	}
 	
