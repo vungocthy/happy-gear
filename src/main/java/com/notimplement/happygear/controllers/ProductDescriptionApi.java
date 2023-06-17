@@ -13,26 +13,26 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class ProductDescriptionApi {
 
-	private final ProductDescriptionService service;
+	private final ProductDescriptionService productDescriptionService;
 
 	@GetMapping("")
 	public ResponseEntity<?> listAllProductDescription(){
-		return ResponseEntity.ok(service.listAll());
+		return ResponseEntity.ok(productDescriptionService.listAll());
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getProductDescriptionById(@PathVariable(name ="id") Integer id){
-		return ResponseEntity.ok(service.getById(id));
+		return ResponseEntity.ok(productDescriptionService.getById(id));
 	}
 	
 	@PostMapping("/create")
 	public ResponseEntity<?> createProductDescription(@Valid @RequestBody ProductDescriptionDto ProductDescription){
-		return ResponseEntity.ok(service.create(ProductDescription));
+		return ResponseEntity.ok(productDescriptionService.create(ProductDescription));
 	}
 	
 	@PutMapping("/update/{id}")
 	public ResponseEntity<?> updateProductDescription(@PathVariable(name ="id") Integer id ,@Valid @RequestBody ProductDescriptionDto p){
 		p.setProductDescriptionId(id);
-		return ResponseEntity.ok(service.update(p));
+		return ResponseEntity.ok(productDescriptionService.update(p));
 	}
 }

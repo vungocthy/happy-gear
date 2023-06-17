@@ -7,6 +7,5 @@ public class CartDto {
     Date orderDate;
     Double total;
     String username;
-
     List<CartItemDto> cartItemList;
 }

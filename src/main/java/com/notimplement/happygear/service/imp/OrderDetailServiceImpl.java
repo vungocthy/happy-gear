@@ -4,13 +4,13 @@ import com.notimplement.happygear.entities.OrderDetail;
 import com.notimplement.happygear.entities.Product;
 import com.notimplement.happygear.model.dto.CartItemDto;
 import com.notimplement.happygear.model.dto.OrderDetailDto;
+import com.notimplement.happygear.model.mapper.Mapper;
 import com.notimplement.happygear.repositories.OrderDetailRepository;
 import com.notimplement.happygear.repositories.OrderRepository;
 import com.notimplement.happygear.repositories.ProductRepository;
 import com.notimplement.happygear.service.OrderDetailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,12 +25,11 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     private final OrderDetailRepository orderDetailRepository;
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
-    private final ModelMapper mapper;
 
     @Override
     public List<OrderDetailDto> getAllOrderDetailDto() {
         return orderDetailRepository.findAll()
-                .stream().map(v -> mapper.map(v, OrderDetailDto.class)).collect(Collectors.toList());
+                .stream().map(Mapper::toOrderDetailDto).collect(Collectors.toList());
     }
 
     @Override
@@ -41,19 +40,19 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     @Override
     public OrderDetailDto getByDetailId(Integer id) {
         OrderDetail orderDetail = orderDetailRepository.findByDetailId(id);
-        return mapper.map(orderDetail, OrderDetailDto.class);
+        return Mapper.toOrderDetailDto(orderDetail);
     }
 
     @Override
     public List<OrderDetailDto> getAllByOrderId(Integer id) {
         return orderDetailRepository.findAllByOrderId(id)
-                .stream().map(v -> mapper.map(v, OrderDetailDto.class)).collect(Collectors.toList());
+                .stream().map(Mapper::toOrderDetailDto).collect(Collectors.toList());
     }
 
     @Override
     public List<OrderDetailDto> getAllByProductId(Integer id) {
         return orderDetailRepository.findAllByProductId(id)
-                .stream().map(v -> mapper.map(v, OrderDetailDto.class)).collect(Collectors.toList());
+                .stream().map(Mapper::toOrderDetailDto).collect(Collectors.toList());
     }
 
     @Override
@@ -61,7 +60,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
         if (orderDetailDto != null) {
             OrderDetail orderDetail = toOrderDetail(orderDetailDto);
             orderDetailRepository.save(orderDetail);
-            return mapper.map(orderDetail, OrderDetailDto.class);
+            return Mapper.toOrderDetailDto(orderDetail);
         }
         return null;
     }
@@ -71,7 +70,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
         if (orderDetailDto != null) {
             OrderDetail orderDetail = toOrderDetail(orderDetailDto);
             orderDetailRepository.save(orderDetail);
-            return mapper.map(orderDetail, OrderDetailDto.class);
+            return Mapper.toOrderDetailDto(orderDetail);
         }
         return null;
     }
@@ -80,7 +79,8 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     public OrderDetailDto delete(Integer id) {
         OrderDetail orderDetail = orderDetailRepository.findByDetailId(id);
         orderDetail.setStatus(false);
-        return mapper.map(orderDetailRepository.save(orderDetail), OrderDetailDto.class);
+        OrderDetail res = orderDetailRepository.save(orderDetail);
+        return Mapper.toOrderDetailDto(res);
     }
 
     @Override

@@ -2,11 +2,11 @@ package com.notimplement.happygear.service.imp;
 
 import com.notimplement.happygear.entities.Role;
 import com.notimplement.happygear.model.dto.RoleDto;
+import com.notimplement.happygear.model.mapper.Mapper;
 import com.notimplement.happygear.repositories.RoleRepository;
 import com.notimplement.happygear.service.RoleService;
 import lombok.RequiredArgsConstructor;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -20,13 +20,12 @@ import java.util.stream.Collectors;
 public class RoleServiceImpl implements RoleService {
 
     private final RoleRepository roleRepository;
-    private final ModelMapper mapper;
 
     @Override
     public RoleDto getRoleById(Integer id) {
         Role role = roleRepository.findByRoleId(id);
         if(role!=null){
-            return mapper.map(role, RoleDto.class);
+            return Mapper.toRoleDto(role);
         }
         return null;
     }
@@ -35,7 +34,7 @@ public class RoleServiceImpl implements RoleService {
     public List<RoleDto> getAllRoleDto() {
        return roleRepository.findAll()
                .stream()
-               .map(v -> mapper.map(v, RoleDto.class))
+               .map(Mapper::toRoleDto)
                .collect(Collectors.toList());
     }
 
@@ -43,7 +42,7 @@ public class RoleServiceImpl implements RoleService {
     public RoleDto updateRole(RoleDto roleDto, Integer id) {
         Role role = roleRepository.findByRoleId(id);
         if(role!=null){
-            return mapper.map(role, RoleDto.class);
+            return Mapper.toRoleDto(role);
         }
         return null;
     }
@@ -51,15 +50,15 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public RoleDto createRole(RoleDto roleDto) {
         Role role = toRole(roleDto);
-        roleRepository.save(role);
-        return mapper.map(role, RoleDto.class);
+        Role res = roleRepository.save(role);
+        return Mapper.toRoleDto(res);
     }
 
     @Override
     public RoleDto removeRole(Integer id) {
         Optional<Role> role = roleRepository.findById(id);
         if(role.isPresent()){
-            return mapper.map(role.get(), RoleDto.class);
+            return Mapper.toRoleDto(role.get());
         }
         return null;
     }

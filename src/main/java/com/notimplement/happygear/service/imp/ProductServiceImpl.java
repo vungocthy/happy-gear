@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.notimplement.happygear.model.mapper.Mapper;
 import lombok.RequiredArgsConstructor;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -31,13 +31,12 @@ public class ProductServiceImpl implements ProductService{
 	private final ProductRepository productRepository;
 	private final BrandRepository brandRepository;
 	private final CategoryRepository categoryRepository;
-	private final ModelMapper mapper;
 	
 	@Override
 	public List<ProductDto> listAll() {
 		return productRepository.findAll()
 			.stream()
-			.map(v -> mapper.map(v, ProductDto.class))
+			.map(Mapper::toProductDto)
 			.collect(Collectors.toList());
 	}
 
@@ -46,7 +45,7 @@ public class ProductServiceImpl implements ProductService{
 		Map<List<ProductDto>, Integer> pair = new HashMap<>();
 		Page<Product> pageList = productRepository.findAll(pageable);
 		pair.put(
-			pageList.stream().map(v -> mapper.map(v, ProductDto.class)).collect(Collectors.toList()),
+			pageList.stream().map(Mapper::toProductDto).collect(Collectors.toList()),
 			pageList.getTotalPages()
 		);
 		return pair;
@@ -58,7 +57,7 @@ public class ProductServiceImpl implements ProductService{
 		Map<List<ProductDto>, Integer> pair = new HashMap<List<ProductDto>, Integer>();
 		Page<Product> pageList = productRepository.findAllProductWithFilter(brandId,categoryId,fromPrice,toPrice, pageable);
 		pair.put(
-			pageList.stream().map(v -> mapper.map(v, ProductDto.class)).collect(Collectors.toList()),
+			pageList.stream().map(Mapper::toProductDto).collect(Collectors.toList()),
 			pageList.getTotalPages()
 		);
 		return pair;
@@ -69,7 +68,7 @@ public class ProductServiceImpl implements ProductService{
 		Map<List<ProductDto>, Long> pair = new HashMap<List<ProductDto>, Long>();
 		Page<Product> pageList = productRepository.findByProductNameContaining(productName, pageable);
 		pair.put(
-			pageList.stream().map(v -> mapper.map(v, ProductDto.class)).collect(Collectors.toList()),
+			pageList.stream().map(Mapper::toProductDto).collect(Collectors.toList()),
 			pageList.getTotalElements());
 		return pair;
 	}
@@ -79,7 +78,7 @@ public class ProductServiceImpl implements ProductService{
 		Map<List<ProductDto>, Integer> pair = new HashMap<List<ProductDto>, Integer>();
 		Page<Product> pageList = productRepository.findByProductNameContainingIgnoreCase(productName, pageable);
 		pair.put(
-			pageList.stream().map(v -> mapper.map(v, ProductDto.class)).collect(Collectors.toList()),
+			pageList.stream().map(Mapper::toProductDto).collect(Collectors.toList()),
 			pageList.getTotalPages());
 		return pair;
 	}
@@ -87,31 +86,32 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public List<ProductDto> listAllLatestProduct(){
 		List<Product> list = productRepository.findTop4ByOrderByProductId();
-		return list.stream().map(v -> mapper.map(v, ProductDto.class)).collect(Collectors.toList());
+		return list.stream().map(Mapper::toProductDto).collect(Collectors.toList());
 	}
 
 	@Override
 	public ProductDto getById(Integer id) {
-		return mapper.map(productRepository.findById(id).get(), ProductDto.class);
+		return Mapper.toProductDto(productRepository.findById(id).get());
 	}
 
 	@Override
 	public ProductDto create(ProductDto b) {
 		Product p = toProduct(b);
-		return mapper.map(productRepository.save(p), ProductDto.class);
+		return Mapper.toProductDto(productRepository.save(p));
 	}
 
 	@Override
 	public ProductDto update(ProductDto b) {
 		Product p = toProduct(b);
-		return mapper.map(productRepository.save(p), ProductDto.class);
+		return Mapper.toProductDto(productRepository.save(p));
 	}
 
 	@Override
 	public ProductDto delete(Integer id) {
 		Product p = productRepository.findById(id).get();
 		p.setStatus(false);
-		return mapper.map(productRepository.save(p), ProductDto.class);
+		Product res = productRepository.save(p);
+		return Mapper.toProductDto(res);
 	}
 
 	@Override

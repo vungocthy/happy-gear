@@ -2,6 +2,7 @@ package com.notimplement.happygear.service.imp;
 
 import com.notimplement.happygear.entities.Comment;
 import com.notimplement.happygear.model.dto.CommentDto;
+import com.notimplement.happygear.model.mapper.Mapper;
 import com.notimplement.happygear.repositories.CommentRepository;
 import com.notimplement.happygear.repositories.ProductRepository;
 import com.notimplement.happygear.repositories.UserRepository;
@@ -9,7 +10,6 @@ import com.notimplement.happygear.service.CommentService;
 
 import lombok.RequiredArgsConstructor;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -25,14 +25,13 @@ public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
-    private final ModelMapper mapper;
 
     @Override
     public List<CommentDto> getAllComment() {
         List<CommentDto> res = new ArrayList<>();
         List<CommentDto> list = commentRepository.findAll()
                 .stream()
-                .map(v -> mapper.map(v, CommentDto.class))
+                .map(Mapper::toCommentDto)
                 .collect(Collectors.toList());
         
         list.forEach(c -> {
@@ -51,7 +50,7 @@ public class CommentServiceImpl implements CommentService {
         List<CommentDto> res = new ArrayList<>();
         List<CommentDto> list = commentRepository.findAllByProductId(id)
                 .stream()
-                .map(v -> mapper.map(v, CommentDto.class))
+                .map(Mapper::toCommentDto)
                 .collect(Collectors.toList());
         list.forEach(c -> {
             CommentDto commentDto = getCommentById(c.getCommentId());
@@ -66,7 +65,7 @@ public class CommentServiceImpl implements CommentService {
     public CommentDto getCommentById(String id) {
         Comment comment = commentRepository.findByCommentId(id);
         if (comment == null) return null;
-        CommentDto commentDto = mapper.map(comment, CommentDto.class);
+        CommentDto commentDto = Mapper.toCommentDto(comment);
         List<CommentDto> child = new ArrayList<>();
         List<CommentDto> replies = getAllChildCommentByParentComment(id);
         for(CommentDto c : replies) {
@@ -81,7 +80,7 @@ public class CommentServiceImpl implements CommentService {
         if (commentDto != null) {
             Comment newComment = toComment(commentDto);
             commentRepository.save(newComment);
-            return mapper.map(newComment, CommentDto.class);
+            return Mapper.toCommentDto(newComment);
         }
         return null;
     }
@@ -92,7 +91,7 @@ public class CommentServiceImpl implements CommentService {
         if (comment != null) {
             comment.setContent(commentDto.getContent());
             commentRepository.save(comment);
-            return mapper.map(comment, CommentDto.class);
+            return Mapper.toCommentDto(comment);
         }
         return null;
     }
@@ -116,13 +115,15 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<CommentDto> getAllCommentByUserName(String username) {
         return commentRepository.findAllByUserName(username)
-                .stream().map(v -> mapper.map(v, CommentDto.class)).collect(Collectors.toList());
+                .stream().map(Mapper::toCommentDto)
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<CommentDto> getAllChildCommentByParentComment(String id) {
         return commentRepository.findByCommentParentId(id)
-                .stream().map(v -> mapper.map(v, CommentDto.class)).collect(Collectors.toList());
+                .stream().map(Mapper::toCommentDto)
+                .collect(Collectors.toList());
     }
 
     private Comment toComment(CommentDto commentDto) {
