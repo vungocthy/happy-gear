@@ -16,6 +16,7 @@ public class CategoryDto {
     private Integer categoryId;
     @NotNull(message = "Category name must not be null!!!")
     @Size(min = 2 , max = 20, message = "Name size mus be [2,10]")
+    private String categoryPicture;
     private String categoryName;
     private Boolean status;
 }

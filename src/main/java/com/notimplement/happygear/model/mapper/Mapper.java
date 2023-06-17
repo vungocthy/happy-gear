@@ -15,6 +15,7 @@ public class Mapper {
         return CategoryDto.builder()
             .categoryId(c.getCategoryId())
             .categoryName(c.getCategoryName())
+            .categoryPicture(c.getCategoryPicture())
             .status(c.getStatus())
             .build();
     }
