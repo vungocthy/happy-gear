@@ -50,6 +50,12 @@ public class ProductDescriptionServiceImpl implements ProductDescriptionService{
 		ProductDescription res = productDescriptionRepository.save(des);
 		return Mapper.toProductDescriptionDto(res);
 	}
+
+	@Override
+	public ProductDescriptionDto getProductDescriptionByProductId(Integer id) {
+		ProductDescription des = productDescriptionRepository.findProductDescriptionByProductId(id);
+		return Mapper.toProductDescriptionDto(des);
+	}
 	
 	private ProductDescription toProductDescription(ProductDescriptionDto dto) {
 		ProductDescription des = new ProductDescription();

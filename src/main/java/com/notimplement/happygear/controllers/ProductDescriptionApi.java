@@ -19,6 +19,11 @@ public class ProductDescriptionApi {
 	public ResponseEntity<?> listAllProductDescription(){
 		return ResponseEntity.ok(productDescriptionService.listAll());
 	}
+
+	@GetMapping("/product/{id}")
+	public ResponseEntity<?> getProductDescriptionByProductId(@PathVariable(name ="id") Integer id){
+		return ResponseEntity.ok(productDescriptionService.getProductDescriptionByProductId(id));
+	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getProductDescriptionById(@PathVariable(name ="id") Integer id){

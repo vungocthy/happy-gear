@@ -22,4 +22,5 @@ public interface ProductService {
 	Map<List<ProductDto>, Integer> listProductByName(String name, Pageable pageable);
 	Long totalProduct();
 	Map<List<ProductDto>, Long> listByPageAndName(String productName, Pageable pageable);
+	List<ProductDto> listAllBestSellingProduct();
 }
