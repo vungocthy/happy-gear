@@ -16,7 +16,15 @@ public interface ProductRepository extends JpaRepository<Product, Integer>{
             "AND p.category.categoryId = :categoryId AND p.price between :fromPrice AND :toPrice")
     Page<Product> findAllProductWithFilter(Integer brandId, Integer categoryId,
                                         Double fromPrice, Double toPrice, Pageable pageable);
-    List<Product> findTop4ByOrderByProductId();
+    List<Product> findTop4ByOrderByProductIdDesc();
     Page<Product> findByProductNameContainingIgnoreCase(String productName, Pageable pageable);
     Page<Product> findByProductNameContaining(String productName, Pageable pageable);
+
+    @Query(
+        "SELECT p FROM Product p WHERE p.productId IN (" +
+            "SELECT od.product.productId FROM OrderDetail od GROUP BY od.product.productId " +
+            "ORDER BY COUNT(od.product.productId) DESC " +
+        ")"
+    )
+    List<Product> findTop4BestSellingProduct(Pageable pageable);
 }

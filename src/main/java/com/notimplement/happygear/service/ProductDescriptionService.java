@@ -9,4 +9,5 @@ public interface ProductDescriptionService {
 	ProductDescriptionDto getById(Integer id);
 	ProductDescriptionDto create(ProductDescriptionDto d);
 	ProductDescriptionDto update(ProductDescriptionDto d);
+    ProductDescriptionDto getProductDescriptionByProductId(Integer id);
 }

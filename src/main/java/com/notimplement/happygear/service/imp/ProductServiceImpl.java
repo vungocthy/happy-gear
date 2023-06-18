@@ -9,6 +9,7 @@ import com.notimplement.happygear.model.mapper.Mapper;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -74,6 +75,13 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
+	public List<ProductDto> listAllBestSellingProduct() {
+		Pageable pageable = PageRequest.of(0, 4);
+		List<Product> list = productRepository.findTop4BestSellingProduct(pageable);
+		return list.stream().map(Mapper::toProductDto).collect(Collectors.toList());
+	}
+
+	@Override
 	public Map<List<ProductDto>, Integer> listProductByName(String productName, Pageable pageable){
 		Map<List<ProductDto>, Integer> pair = new HashMap<List<ProductDto>, Integer>();
 		Page<Product> pageList = productRepository.findByProductNameContainingIgnoreCase(productName, pageable);
@@ -85,7 +93,7 @@ public class ProductServiceImpl implements ProductService{
 
 	@Override
 	public List<ProductDto> listAllLatestProduct(){
-		List<Product> list = productRepository.findTop4ByOrderByProductId();
+		List<Product> list = productRepository.findTop4ByOrderByProductIdDesc();
 		return list.stream().map(Mapper::toProductDto).collect(Collectors.toList());
 	}
 
