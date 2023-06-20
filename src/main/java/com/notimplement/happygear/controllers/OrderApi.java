@@ -25,22 +25,22 @@ public class OrderApi {
     private final UserService userService;
 
     @GetMapping("")
-    public ResponseEntity<?> getAllOrder(){
+    public ResponseEntity<?> getAllOrder() {
         return ResponseEntity.ok(orderService.getAllOrderDto());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getOrderByOrderId(@PathVariable Integer id){
+    public ResponseEntity<?> getOrderByOrderId(@PathVariable Integer id) {
         return ResponseEntity.ok(orderService.getByOrderId(id));
     }
 
     @PutMapping("/update")
-    public ResponseEntity<?> updateOrder(@RequestBody OrderDto orderDto){
+    public ResponseEntity<?> updateOrder(@RequestBody OrderDto orderDto) {
         return ResponseEntity.ok(orderService.update(orderDto));
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createOrder(@Valid @RequestBody RequestOrderDto order){
+    public ResponseEntity<?> createOrder(@Valid @RequestBody RequestOrderDto order) {
         log.info("Request " + order.toString());
         OrderDto orderDto = new OrderDto();
         List<CartItemDto> list = order.getCartItems();
@@ -48,11 +48,11 @@ public class OrderApi {
         UserDto userDto = userService.getByUserName(order.getUserName());
         Double total = orderDetailService.getCartAmount(order.getCartItems());
 
-        if(total == 0d){
+        if (total == 0d) {
             return ResponseEntity.status(HttpStatus.INSUFFICIENT_STORAGE)
                     .body("The quantity is not enough");
         }
-        if(userDto!=null){
+        if (userDto != null) {
             orderDto.setUserName(userDto.getUsername());
             orderDto.setDate(Date.valueOf(java.time.LocalDate.now()));
             orderDto.setTotal(total);
@@ -60,7 +60,7 @@ public class OrderApi {
             OrderDto newOrderDto = orderService.create(orderDto);
 
             list.forEach(item -> {
-                log.info("Item: "+item);
+                log.info("Item: " + item);
                 OrderDetailDto orderDetailDto = new OrderDetailDto();
                 orderDetailDto.setOrderId(newOrderDto.getOrderId());
                 orderDetailDto.setPrice(item.getPrice());
@@ -70,16 +70,17 @@ public class OrderApi {
                 orderDetailService.create(orderDetailDto);
             });
             log.info("User with username: " + userDto.getUsername());
-        }
-        else{
+        } else {
             log.info("User is not exist");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("User is not exist");
         }
         log.info("order push........");
         return ResponseEntity.ok("success");
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteOrder(@PathVariable Integer id){
+    public ResponseEntity<?> deleteOrder(@PathVariable Integer id) {
         return ResponseEntity.ok(orderService.delete(id));
     }
 }
