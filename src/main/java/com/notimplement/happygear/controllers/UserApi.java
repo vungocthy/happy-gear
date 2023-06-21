@@ -1,7 +1,9 @@
 package com.notimplement.happygear.controllers;
 
 import com.notimplement.happygear.model.dto.AccountDto;
+import com.notimplement.happygear.model.dto.OrderDto;
 import com.notimplement.happygear.model.dto.UserDto;
+import com.notimplement.happygear.model.dto.UserInfoDto;
 import com.notimplement.happygear.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -73,8 +75,24 @@ public class UserApi {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody UserDto userDto){
-        UserDto user = userService.signup(userDto);
-        return ResponseEntity.ok(user);
+    public ResponseEntity<?> register(@RequestBody UserInfoDto userInfoDto){
+        UserDto existUserDto = userService.getByUserName(userInfoDto.getUid());
+        if(existUserDto==null){
+            UserDto userDto = UserDto.builder()
+                    .username(userInfoDto.getUid())
+                    .fullName(userInfoDto.getDisplayName())
+                    .email(userInfoDto.getEmail())
+                    .status(true)
+                    .build();
+            UserDto user = userService.signup(userDto);
+            return ResponseEntity.created(null).body(user);
+        }
+        return ResponseEntity.ok(existUserDto);
+    }
+
+    @GetMapping("/{username}/orders")
+    public ResponseEntity<?> getOrdersByUsername(@PathVariable(name = "username") String username){
+        List<OrderDto> list = userService.getOrdersByUsername(username);
+        return ResponseEntity.ok(list);
     }
 }
