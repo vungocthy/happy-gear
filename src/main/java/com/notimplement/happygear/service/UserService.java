@@ -2,6 +2,7 @@ package com.notimplement.happygear.service;
 
 import com.notimplement.happygear.entities.User;
 import com.notimplement.happygear.model.dto.AccountDto;
+import com.notimplement.happygear.model.dto.OrderDto;
 import com.notimplement.happygear.model.dto.UserDto;
 
 import java.util.List;
@@ -22,4 +23,5 @@ public interface UserService {
     UserDto getByUserName(String name);
     List<UserDto> searchByFullName(String fullname);
     Map<List<UserDto>, Long> listByPage(Pageable p);
+    List<OrderDto> getOrdersByUsername(String username);
 }

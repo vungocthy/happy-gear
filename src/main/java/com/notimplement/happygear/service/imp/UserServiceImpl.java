@@ -2,6 +2,7 @@ package com.notimplement.happygear.service.imp;
 
 import com.notimplement.happygear.entities.User;
 import com.notimplement.happygear.model.dto.AccountDto;
+import com.notimplement.happygear.model.dto.OrderDto;
 import com.notimplement.happygear.model.dto.UserDto;
 import com.notimplement.happygear.model.mapper.Mapper;
 import com.notimplement.happygear.repositories.RoleRepository;
@@ -162,4 +163,12 @@ public class UserServiceImpl implements UserService {
             pageList.getTotalElements());
 		return pair;
 	}
+
+    @Override
+    public List<OrderDto> getOrdersByUsername(String username) {
+        return userRepository.findOrdersByUsername(username)
+                .stream()
+                .map(Mapper::toOrderDto)
+                .collect(Collectors.toList());
+    }
 }

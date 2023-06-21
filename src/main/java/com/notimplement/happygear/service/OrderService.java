@@ -8,7 +8,6 @@ import java.util.List;
 public interface OrderService {
     List<OrderDto> getAllOrderDto();
     List<Order> getAllOrder();
-    List<OrderDto> getByUserName(String username);
     OrderDto getByOrderId(Integer id);
     OrderDto update(OrderDto order);
     OrderDto create(OrderDto order);

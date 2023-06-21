@@ -1,5 +1,6 @@
 package com.notimplement.happygear.repositories;
 
+import com.notimplement.happygear.entities.Order;
 import com.notimplement.happygear.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,4 +16,6 @@ public interface UserRepository extends JpaRepository<User,String> {
     List<User> findByFullNameContainingIgnoreCase(String name);
     User findByUsernameAndPassword(String username, String password);
     Optional<User> findByUsername(String username);
+    @Query("SELECT o FROM Order o WHERE o.user.username = :username")
+    List<Order> findOrdersByUsername(String username);
 }

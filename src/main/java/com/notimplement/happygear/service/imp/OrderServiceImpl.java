@@ -34,13 +34,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderDto> getByUserName(String username) {
-        return orderRepository.findByUserName(username)
-                .stream().map(Mapper::toOrderDto)
-                .collect(Collectors.toList());
-    }
-
-    @Override
     public OrderDto getByOrderId(Integer id) {
         Order order = orderRepository.findByOrderId(id);
         return Mapper.toOrderDto(order);
