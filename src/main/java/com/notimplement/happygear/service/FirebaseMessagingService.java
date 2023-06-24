@@ -21,6 +21,7 @@ public class FirebaseMessagingService {
                 .builder()
                 .setTitle(note.getSubject())
                 .setBody(note.getContent())
+                .setImage(note.getImage())
                 .build();
 
         Message message = Message
