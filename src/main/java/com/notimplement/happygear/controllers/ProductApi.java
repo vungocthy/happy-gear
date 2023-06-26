@@ -1,4 +1,5 @@
 package com.notimplement.happygear.controllers;
+import com.notimplement.happygear.model.dto.PaginationObject;
 import com.notimplement.happygear.model.dto.ProductDto;
 import com.notimplement.happygear.service.ProductService;
 
@@ -63,12 +64,14 @@ public class ProductApi {
 
 		Pageable pageable = PageRequest.of(p.orElse(0),6);
 		Map<List<ProductDto>, Integer> listIntegerMap = productService.listByPage(pageable);
-		List<Object> list = new ArrayList<>();
+		
+		PaginationObject paginationObject = new PaginationObject();
+
 		listIntegerMap.forEach((productDtos, integer) -> {
-			list.add(productDtos);
-			list.add(integer);
+			paginationObject.setData(productDtos);
+			paginationObject.setSize(integer);
 		});
-		return ResponseEntity.ok(list);
+		return ResponseEntity.ok(paginationObject);
 	}
 	
 	@GetMapping("/name")
