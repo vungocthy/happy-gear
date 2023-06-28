@@ -54,6 +54,9 @@ public class ProductDescriptionServiceImpl implements ProductDescriptionService{
 	@Override
 	public ProductDescriptionDto getProductDescriptionByProductId(Integer id) {
 		ProductDescription des = productDescriptionRepository.findProductDescriptionByProductId(id);
+		if(des == null) {
+			return null;
+		}
 		return Mapper.toProductDescriptionDto(des);
 	}
 	

@@ -30,24 +30,24 @@ public class CategoryApi {
 		return ResponseEntity.ok(categoryService.listAll());
 	}
 	
-	@GetMapping("/{id}")
-	public ResponseEntity<?> getCategoryById(@PathVariable(name ="id") Integer id){
-		return ResponseEntity.ok(categoryService.getById(id));
-	}
+	// @GetMapping("/{id}")
+	// public ResponseEntity<?> getCategoryById(@PathVariable(name ="id") Integer id){
+	// 	return ResponseEntity.ok(categoryService.getById(id));
+	// }
 	
-	@PostMapping("/create")
-	public ResponseEntity<?> createCategory(@Valid @RequestBody CategoryDto Category){
-		return ResponseEntity.ok(categoryService.create(Category));
-	}
+	// @PostMapping("/create")
+	// public ResponseEntity<?> createCategory(@Valid @RequestBody CategoryDto Category){
+	// 	return ResponseEntity.ok(categoryService.create(Category));
+	// }
 	
-	@PutMapping("/update/{id}")
-	public ResponseEntity<?> updateCategory(@PathVariable(name ="id") Integer id ,@Valid @RequestBody CategoryDto cate){
-		cate.setCategoryId(id);
-		return ResponseEntity.ok(categoryService.update(cate));
-	}
+	// @PutMapping("/update/{id}")
+	// public ResponseEntity<?> updateCategory(@PathVariable(name ="id") Integer id ,@Valid @RequestBody CategoryDto cate){
+	// 	cate.setCategoryId(id);
+	// 	return ResponseEntity.ok(categoryService.update(cate));
+	// }
 	
-	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<?> deleteCategory(@PathVariable(name ="id") Integer id){
-		return ResponseEntity.ok(categoryService.delete(id));
-	}
+	// @DeleteMapping("/delete/{id}")
+	// public ResponseEntity<?> deleteCategory(@PathVariable(name ="id") Integer id){
+	// 	return ResponseEntity.ok(categoryService.delete(id));
+	// }
 }
