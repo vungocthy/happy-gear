@@ -15,29 +15,33 @@ public class ProductDescriptionApi {
 
 	private final ProductDescriptionService productDescriptionService;
 
-	@GetMapping("")
-	public ResponseEntity<?> listAllProductDescription(){
-		return ResponseEntity.ok(productDescriptionService.listAll());
-	}
+	// @GetMapping("")
+	// public ResponseEntity<?> listAllProductDescription(){
+	// 	return ResponseEntity.ok(productDescriptionService.listAll());
+	// }
 
 	@GetMapping("/product/{id}")
 	public ResponseEntity<?> getProductDescriptionByProductId(@PathVariable(name ="id") Integer id){
+		ProductDescriptionDto res = productDescriptionService.getProductDescriptionByProductId(id);
+		if(res == null){
+			return ResponseEntity.ok("No description found");
+		}
 		return ResponseEntity.ok(productDescriptionService.getProductDescriptionByProductId(id));
 	}
 	
-	@GetMapping("/{id}")
-	public ResponseEntity<?> getProductDescriptionById(@PathVariable(name ="id") Integer id){
-		return ResponseEntity.ok(productDescriptionService.getById(id));
-	}
+	// @GetMapping("/{id}")
+	// public ResponseEntity<?> getProductDescriptionById(@PathVariable(name ="id") Integer id){
+	// 	return ResponseEntity.ok(productDescriptionService.getById(id));
+	// }
 	
 	@PostMapping("/create")
 	public ResponseEntity<?> createProductDescription(@Valid @RequestBody ProductDescriptionDto ProductDescription){
 		return ResponseEntity.ok(productDescriptionService.create(ProductDescription));
 	}
 	
-	@PutMapping("/update/{id}")
-	public ResponseEntity<?> updateProductDescription(@PathVariable(name ="id") Integer id ,@Valid @RequestBody ProductDescriptionDto p){
-		p.setProductDescriptionId(id);
-		return ResponseEntity.ok(productDescriptionService.update(p));
-	}
+	// @PutMapping("/update/{id}")
+	// public ResponseEntity<?> updateProductDescription(@PathVariable(name ="id") Integer id ,@Valid @RequestBody ProductDescriptionDto p){
+	// 	p.setProductDescriptionId(id);
+	// 	return ResponseEntity.ok(productDescriptionService.update(p));
+	// }
 }

@@ -24,20 +24,20 @@ public class OrderApi {
     private final OrderDetailService orderDetailService;
     private final UserService userService;
 
-    @GetMapping("")
-    public ResponseEntity<?> getAllOrder() {
-        return ResponseEntity.ok(orderService.getAllOrderDto());
-    }
+    // @GetMapping("")
+    // public ResponseEntity<?> getAllOrder() {
+    //     return ResponseEntity.ok(orderService.getAllOrderDto());
+    // }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getOrderByOrderId(@PathVariable Integer id) {
-        return ResponseEntity.ok(orderService.getByOrderId(id));
-    }
+    // @GetMapping("/{id}")
+    // public ResponseEntity<?> getOrderByOrderId(@PathVariable Integer id) {
+    //     return ResponseEntity.ok(orderService.getByOrderId(id));
+    // }
 
-    @PutMapping("/update")
-    public ResponseEntity<?> updateOrder(@RequestBody OrderDto orderDto) {
-        return ResponseEntity.ok(orderService.update(orderDto));
-    }
+    // @PutMapping("/update")
+    // public ResponseEntity<?> updateOrder(@RequestBody OrderDto orderDto) {
+    //     return ResponseEntity.ok(orderService.update(orderDto));
+    // }
 
     @PostMapping("/create")
     public ResponseEntity<?> createOrder(@Valid @RequestBody RequestOrderDto order) {
@@ -79,8 +79,8 @@ public class OrderApi {
         return ResponseEntity.ok("success");
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteOrder(@PathVariable Integer id) {
-        return ResponseEntity.ok(orderService.delete(id));
-    }
+    // @DeleteMapping("/delete/{id}")
+    // public ResponseEntity<?> deleteOrder(@PathVariable Integer id) {
+    //     return ResponseEntity.ok(orderService.delete(id));
+    // }
 }
