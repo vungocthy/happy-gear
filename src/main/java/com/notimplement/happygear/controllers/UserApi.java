@@ -24,12 +24,12 @@ public class UserApi {
     //     return ResponseEntity.ok(listUser);
     // }
 
-    // @GetMapping("/{username}")
-    // public ResponseEntity<?> getUserByUserName(@PathVariable(name = "username") String username){
-    //     UserDto userDto = userService.getByUserName(username);
-    //     if(userDto==null) return ResponseEntity.noContent().build();
-    //     return ResponseEntity.ok(userDto);
-    // }
+    @GetMapping("/{username}")
+    public ResponseEntity<?> getUserByUserName(@PathVariable(name = "username") String username){
+        UserDto userDto = userService.getByUserName(username);
+        if(userDto==null) return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(userDto);
+    }
     
     // @GetMapping("/")
     // public ResponseEntity<?> getAllByPage(@RequestParam("p") Optional<Integer> p){
