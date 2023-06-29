@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.notimplement.happygear.model.wallet.CustomerMemberShipDto;
+import com.notimplement.happygear.model.wallet.CustomerProgramDto;
 import com.notimplement.happygear.model.wallet.LoginFormDto;
 import com.notimplement.happygear.model.wallet.RequestAdditionDto;
 import com.notimplement.happygear.model.wallet.RequestExtraDto;
@@ -132,6 +133,44 @@ public class WalletApi {
                 .collectList()
                 .block();
 
+        if(result == null)
+            return ResponseEntity.badRequest().body("Invalid request");
+        return ResponseEntity.ok(result);
+    }
+
+    @PostMapping("/customers")
+    public ResponseEntity<?> createCustomer(@RequestBody CustomerProgramDto customer, HttpServletRequest request){
+        String token = TokenUtil.getBearerToken(request);
+        String url = "https://swd-back-end.azurewebsites.net/partner/api/customers";
+        WebClient.Builder builder = WebClient.builder();
+
+        String result = builder.build()
+                .post()
+                .uri(url)
+                .header("Authorization", "Bearer " + token)
+                .bodyValue(customer)
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+        if(result == null)
+            return ResponseEntity.badRequest().body("Invalid request");
+        return ResponseEntity.ok(result);
+    }
+
+    @PostMapping("/customers/membership")
+    public ResponseEntity<?> createCustomerMemberShip(@RequestBody CustomerProgramDto customer, HttpServletRequest request){
+        String token = TokenUtil.getBearerToken(request);
+        String url = "https://swd-back-end.azurewebsites.net/partner/api/customers/membership";
+        WebClient.Builder builder = WebClient.builder();
+
+        String result = builder.build()
+                .post()
+                .uri(url)
+                .header("Authorization", "Bearer " + token)
+                .bodyValue(customer)
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
         if(result == null)
             return ResponseEntity.badRequest().body("Invalid request");
         return ResponseEntity.ok(result);
