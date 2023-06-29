@@ -1,24 +1,21 @@
-// package com.notimplement.happygear.controllers;
+package com.notimplement.happygear.controllers;
 
-// import com.notimplement.happygear.model.dto.BrandDto;
-// import com.notimplement.happygear.service.BrandService;
-// import lombok.RequiredArgsConstructor;
-// import org.springframework.http.ResponseEntity;
-// import org.springframework.web.bind.annotation.*;
+import com.notimplement.happygear.service.BrandService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-// import javax.validation.Valid;
+@RestController
+@RequestMapping("/api/brands")
+@RequiredArgsConstructor
+public class BrandApi {
 
-// @RestController
-// @RequestMapping("/api/brands")
-// @RequiredArgsConstructor
-// public class BrandApi {
-
-// 	private final BrandService brandService;
+	private final BrandService brandService;
 	
-// 	@GetMapping("")
-// 	public ResponseEntity<?> listAllBrand(){
-// 		return ResponseEntity.ok(brandService.listAll());
-// 	}
+	@GetMapping("")
+	public ResponseEntity<?> listAllBrand(){
+		return ResponseEntity.ok(brandService.listAll());
+	}
 	
 // 	@GetMapping("/{id}")
 // 	public ResponseEntity<?> getBrandById(@PathVariable(name ="id") Integer id){
@@ -40,4 +37,4 @@
 // 	public ResponseEntity<?> deleteBrand(@PathVariable(name ="id") Integer id){
 // 		return ResponseEntity.ok(brandService.delete(id));
 // 	}
-// }
+}
