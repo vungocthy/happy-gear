@@ -39,7 +39,7 @@ public class OrderApi {
     //     return ResponseEntity.ok(orderService.update(orderDto));
     // }
 
-    @PostMapping("/create")
+    @PostMapping("")
     public ResponseEntity<?> createOrder(@Valid @RequestBody RequestOrderDto order) {
         log.info("Request " + order.toString());
         OrderDto orderDto = new OrderDto();

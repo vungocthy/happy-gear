@@ -18,7 +18,7 @@ public class PushNotification {
 
     private final FirebaseMessagingService firebaseService;
 
-    @PostMapping("/send-notification")
+    @PostMapping("")
     public String sendNotification(@RequestBody Note note)
             throws FirebaseMessagingException {
         return firebaseService.sendNotification(note, note.getToken());

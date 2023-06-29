@@ -2,6 +2,7 @@ package com.notimplement.happygear.controllers;
 
 import com.notimplement.happygear.model.dto.PaginationObject;
 import com.notimplement.happygear.model.dto.ProductDto;
+import com.notimplement.happygear.service.ProductPictureService;
 import com.notimplement.happygear.service.ProductService;
 
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ import java.util.Optional;
 public class ProductApi {
 
 	private final ProductService productService;
+	private final ProductPictureService productPictureService;
 
 	// @GetMapping("")
 	// public ResponseEntity<?> listAllProduct(){
@@ -71,6 +73,11 @@ public class ProductApi {
 			paginationObject.setSize(integer);
 		});
 		return ResponseEntity.ok(paginationObject);
+	}
+
+	@GetMapping("/{id}/pictures")
+	public ResponseEntity<?> listProductPictureByProductId(@PathVariable("id") Integer id) {
+		return ResponseEntity.ok(productPictureService.getByProductId(id));
 	}
 
 	// @GetMapping("/name")
