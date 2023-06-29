@@ -1,12 +1,9 @@
 package com.notimplement.happygear.controllers;
 
-import com.notimplement.happygear.model.dto.ProductPictureDto;
 import com.notimplement.happygear.service.ProductPictureService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping("api/pictures")
