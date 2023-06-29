@@ -1,17 +1,21 @@
 package com.notimplement.happygear.controllers;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.notimplement.happygear.model.wallet.CustomerMemberShipDto;
 import com.notimplement.happygear.model.wallet.LoginFormDto;
 import com.notimplement.happygear.model.wallet.RequestAdditionDto;
+import com.notimplement.happygear.model.wallet.RequestExtraDto;
 import com.notimplement.happygear.model.wallet.RequestSubtractionDto;
 import com.notimplement.happygear.util.TokenUtil;
 
@@ -88,6 +92,46 @@ public class WalletApi {
                 .retrieve()
                 .bodyToMono(String.class)
                 .block();
+        if(result == null)
+            return ResponseEntity.badRequest().body("Invalid request");
+        return ResponseEntity.ok(result);
+    }
+
+    @PostMapping("/requests")
+    public ResponseEntity<?> createRequest(@RequestBody RequestExtraDto creation, HttpServletRequest request){
+        String token = TokenUtil.getBearerToken(request);
+        String url = "https://swd-back-end.azurewebsites.net/partner/api/requests";
+        WebClient.Builder builder = WebClient.builder();
+
+        String result = builder.build()
+                .post()
+                .uri(url)
+                .header("Authorization", "Bearer " + token)
+                .bodyValue(request)
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+        if(result == null)
+            return ResponseEntity.badRequest().body("Invalid request");
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/requests")
+    public ResponseEntity<?> findAllByProgramTokenAndCustomerId(
+        @RequestParam(defaultValue = "") String customerId, HttpServletRequest request){
+        String token = TokenUtil.getBearerToken(request);
+        String url = "https://swd-back-end.azurewebsites.net/partner/api/requests" + "?customerId=" + customerId;
+        WebClient.Builder builder = WebClient.builder();
+
+        List<RequestExtraDto> result = builder.build()
+                .get()
+                .uri(url)
+                .header("Authorization", "Bearer " + token)
+                .retrieve()
+                .bodyToFlux(RequestExtraDto.class)
+                .collectList()
+                .block();
+
         if(result == null)
             return ResponseEntity.badRequest().body("Invalid request");
         return ResponseEntity.ok(result);

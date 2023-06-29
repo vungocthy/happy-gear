@@ -6,15 +6,10 @@ import com.notimplement.happygear.model.dto.UserDto;
 import com.notimplement.happygear.model.dto.UserInfoDto;
 import com.notimplement.happygear.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/users")
