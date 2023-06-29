@@ -28,7 +28,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 public class WalletApi {
 
     @GetMapping("/members/information")
-    public ResponseEntity<?> getWalletByCustomerId(Long customerId, HttpServletRequest request) {
+    public ResponseEntity<?> getWalletByCustomerId(String customerId, HttpServletRequest request) {
         String token = TokenUtil.getBearerToken(request);
         String url = "https://swd-back-end.azurewebsites.net/partner/api/members/information?customerId=" + customerId;
         
@@ -139,7 +139,8 @@ public class WalletApi {
     }
 
     @PostMapping("/customers")
-    public ResponseEntity<?> createCustomer(@RequestBody CustomerProgramDto customer, HttpServletRequest request){
+    public ResponseEntity<?> createCustomer(
+        @RequestBody CustomerProgramDto customer, HttpServletRequest request){
         String token = TokenUtil.getBearerToken(request);
         String url = "https://swd-back-end.azurewebsites.net/partner/api/customers";
         WebClient.Builder builder = WebClient.builder();
