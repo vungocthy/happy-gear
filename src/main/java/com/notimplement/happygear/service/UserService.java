@@ -24,4 +24,5 @@ public interface UserService {
     List<UserDto> searchByFullName(String fullname);
     Map<List<UserDto>, Long> listByPage(Pageable p);
     List<OrderDto> getOrdersByUsername(String username);
+    UserDto getUserByEmail(String email);
 }

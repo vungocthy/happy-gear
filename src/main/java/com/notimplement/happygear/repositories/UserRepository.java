@@ -18,4 +18,5 @@ public interface UserRepository extends JpaRepository<User,String> {
     Optional<User> findByUsername(String username);
     @Query("SELECT o FROM Order o WHERE o.user.username = :username")
     List<Order> findOrdersByUsername(String username);
+    User findByEmail(String email);
 }
