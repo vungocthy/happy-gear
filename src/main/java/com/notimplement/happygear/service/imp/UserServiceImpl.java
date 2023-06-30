@@ -47,17 +47,11 @@ public class UserServiceImpl implements UserService {
         String userName = userDto.getUsername();
         String address = userDto.getAddress();
         String password = userDto.getPassword();
-        System.out.println(password);
         String email = userDto.getEmail();
         String phoneNumber = userDto.getPhoneNumber();
         Boolean gender = userDto.getGender();
         Boolean status = true;
         Integer roleId = 2;
-
-        UserDto u = getByUserName(userName);
-        if(u!=null){
-            return null;
-        }
         UserDto newUser = new UserDto(userName,fullName,address,password,email,phoneNumber,status,gender,roleId);
         return createUser(newUser);
     }
@@ -170,5 +164,14 @@ public class UserServiceImpl implements UserService {
                 .stream()
                 .map(Mapper::toOrderDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public UserDto getUserByEmail(String email) {
+        User u = userRepository.findByEmail(email);
+        if(u==null){
+            return null;
+        }
+        return Mapper.toUserDto(u);
     }
 }

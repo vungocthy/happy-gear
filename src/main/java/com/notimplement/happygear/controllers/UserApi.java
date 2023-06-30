@@ -7,7 +7,12 @@ import com.notimplement.happygear.model.dto.UserInfoDto;
 import com.notimplement.happygear.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -69,8 +74,8 @@ public class UserApi {
         return ResponseEntity.notFound().build();
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody UserInfoDto userInfoDto){
+    @PostMapping("/google/auth")
+    public ResponseEntity<?> googleAuth(@RequestBody UserInfoDto userInfoDto){
         UserDto existUserDto = userService.getByUserName(userInfoDto.getUid());
         if(existUserDto==null){
             UserDto userDto = UserDto.builder()
@@ -81,6 +86,22 @@ public class UserApi {
                     .build();
             UserDto user = userService.signup(userDto);
             return ResponseEntity.created(null).body(user);
+        }
+        return ResponseEntity.ok(existUserDto);
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody UserDto userDto){
+        UserDto existUserDto = userService.getByUserName(userDto.getUsername());
+        UserDto existEmail = userService.getUserByEmail(userDto.getEmail());
+        if(existUserDto==null){
+            userDto.setStatus(true);
+            userDto.setRoleId(2);
+            UserDto user = userService.signup(userDto);
+            return ResponseEntity.created(null).body(user);
+        }
+        else if(existEmail!=null){
+            return ResponseEntity.badRequest().body("Email already exists");
         }
         return ResponseEntity.ok(existUserDto);
     }
