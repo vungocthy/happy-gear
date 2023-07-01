@@ -12,7 +12,7 @@ import com.notimplement.happygear.service.FirebaseMessagingService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/notification")
+@RequestMapping("/api/notifications")
 @RequiredArgsConstructor
 public class PushNotification {
 

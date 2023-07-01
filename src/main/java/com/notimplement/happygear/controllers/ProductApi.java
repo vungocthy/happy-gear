@@ -1,14 +1,12 @@
 package com.notimplement.happygear.controllers;
 
 import com.notimplement.happygear.model.dto.PaginationObject;
+import com.notimplement.happygear.model.dto.ProductDescriptionDto;
 import com.notimplement.happygear.model.dto.ProductDto;
+import com.notimplement.happygear.service.ProductDescriptionService;
 import com.notimplement.happygear.service.ProductPictureService;
 import com.notimplement.happygear.service.ProductService;
-
 import lombok.RequiredArgsConstructor;
-
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,129 +19,66 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ProductApi {
 
-	private final ProductService productService;
-	private final ProductPictureService productPictureService;
+    private final ProductService productService;
+    private final ProductPictureService productPictureService;
+    private final ProductDescriptionService productDescriptionService;
 
-	// @GetMapping("")
-	// public ResponseEntity<?> listAllProduct(){
-	// Pageable pageable = PageRequest.of(0,6);
-	// Map<List<ProductDto>, Integer> listIntegerMap =
-	// productService.listByPage(pageable);
-	// List<Object> list = new ArrayList<>();
-	// listIntegerMap.forEach((productDtos, integer) -> {
-	// list.add(productDtos);
-	// list.add(integer);
-	// });
-	// return ResponseEntity.ok(list);
-	// }
+    @GetMapping("/best-selling")
+    public ResponseEntity<?> listBestSellingProduct() {
+        return ResponseEntity.ok(productService.listAllBestSellingProduct());
+    }
 
-	@GetMapping("/best-selling")
-	public ResponseEntity<?> listBestSellingProduct() {
-		return ResponseEntity.ok(productService.listAllBestSellingProduct());
-	}
+    @GetMapping("/{id}")
+    public ResponseEntity<?> productById(@PathVariable("id") Integer id) {
+        var results = productService.getById(id);
+        return ResponseEntity.ok(results);
+    }
 
-	@GetMapping("/{id}")
-	public ResponseEntity<?> productById(@PathVariable("id") Integer id) {
-		var results = productService.getById(id);
-		return ResponseEntity.ok(results);
-	}
+    @GetMapping("")
+    public ResponseEntity<?> listProductAndFilter(
+            @RequestParam("page") Optional<Integer> page,
+            @RequestParam("limit") Optional<Integer> limit,
+            @RequestParam("search") Optional<String> search,
+            @RequestParam("brandIds") Optional<List<Integer>> brandIds,
+            @RequestParam("categoryIds") Optional<List<Integer>> categoryIds,
+            @RequestParam("fromPrice") Optional<Double> fromPrice,
+            @RequestParam("toPrice") Optional<Double> toPrice,
+            @RequestParam("sortBy") Optional<String> sortBy) {
+        Map<List<ProductDto>, Integer> listIntegerMap = productService.listAllProductAndFilter(
+                page.orElse(0),
+                limit.orElse(8),
+                brandIds.orElse(null),
+                categoryIds.orElse(null),
+                fromPrice.orElse(0.0),
+                toPrice.orElse(Double.MAX_VALUE),
+                sortBy.orElse("asc"),
+                search.orElse("")
+        );
+        PaginationObject paginationObject = new PaginationObject();
+        listIntegerMap.forEach((productDtos, integer) -> {
+            paginationObject.setData(productDtos);
+            paginationObject.setSize(integer);
+        });
+        return ResponseEntity.ok(paginationObject);
+    }
 
-	// @GetMapping("/total")
-	// public ResponseEntity<?> totalProduct() {
-	// 	return ResponseEntity.ok(productService.totalProduct());
-	// }
+    @GetMapping("/{id}/pictures")
+    public ResponseEntity<?> listProductPictureByProductId(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(productPictureService.getByProductId(id));
+    }
 
-	@GetMapping("")
-	public ResponseEntity<?> listProductByPage(@RequestParam("page") Optional<Integer> page,
-			@RequestParam("limit") Optional<Integer> limit) {
+    @GetMapping("/latest")
+    public ResponseEntity<?> listLatestProduct() {
+        List<ProductDto> list = productService.listAllLatestProduct();
+        return ResponseEntity.ok(list);
+    }
 
-		if (page.get() > 0) {
-			page = Optional.of(page.get() - 1);
-		} else if (page.get() < 0) {
-			page = Optional.of(0);
-		}
-
-		Pageable pageable = PageRequest.of(page.orElse(0), limit.orElse(6));
-		Map<List<ProductDto>, Integer> listIntegerMap = productService.listByPage(pageable);
-
-		PaginationObject paginationObject = new PaginationObject();
-
-		listIntegerMap.forEach((productDtos, integer) -> {
-			paginationObject.setData(productDtos);
-			paginationObject.setSize(integer);
-		});
-		return ResponseEntity.ok(paginationObject);
-	}
-
-	@GetMapping("/{id}/pictures")
-	public ResponseEntity<?> listProductPictureByProductId(@PathVariable("id") Integer id) {
-		return ResponseEntity.ok(productPictureService.getByProductId(id));
-	}
-
-	// @GetMapping("/name")
-	// public ResponseEntity<?> listProductByPageAndName(@RequestParam("name") String name,
-	// 		@RequestParam("p") Optional<Integer> p) {
-	// 	Pageable pageable = PageRequest.of(p.orElse(0), 9);
-	// 	Map<List<ProductDto>, Long> listIntegerMap = productService.listByPageAndName(name, pageable);
-	// 	List<Object> list = new ArrayList<>();
-	// 	listIntegerMap.forEach((productDtos, integer) -> {
-	// 		list.add(productDtos);
-	// 		list.add(integer);
-	// 	});
-	// 	return ResponseEntity.ok(list);
-	// }
-
-	// @GetMapping("/search")
-	// public ResponseEntity<?> listProductBySearch(@RequestParam("p") Optional<Integer> p,
-	// 		@RequestParam("text") Optional<String> text) {
-	// 	Pageable pageable = PageRequest.of(p.orElse(0), 9);
-	// 	Map<List<ProductDto>, Integer> listIntegerMap = productService.listProductByName(text.orElse(""), pageable);
-	// 	List<Object> list = new ArrayList<>();
-	// 	listIntegerMap.forEach((productDtos, integer) -> {
-	// 		list.add(productDtos);
-	// 		list.add(integer);
-	// 	});
-	// 	return ResponseEntity.ok(list);
-	// }
-
-	// @GetMapping("/page")
-	// public ResponseEntity<?> listProductByPageAndCatgoryAndBrand(
-	// 		@RequestParam("p") Optional<Integer> p,
-	// 		@RequestParam("b") Optional<Integer> brandId,
-	// 		@RequestParam("c") Optional<Integer> categoryId,
-	// 		@RequestParam("f") Double fromPrice,
-	// 		@RequestParam("t") Double toPrice) {
-	// 	Pageable pageable = PageRequest.of(p.orElse(0), 9);
-	// 	Map<List<ProductDto>, Integer> listIntegerMap = productService.listByPageCategoryAndBrand(brandId.orElse(1),
-	// 			categoryId.orElse(1), fromPrice, toPrice, pageable);
-	// 	List<Object> list = new ArrayList<>();
-	// 	listIntegerMap.forEach((productDtos, integer) -> {
-	// 		list.add(productDtos);
-	// 		list.add(integer);
-	// 	});
-	// 	return ResponseEntity.ok(list);
-	// }
-
-	@GetMapping("/latest")
-	public ResponseEntity<?> listLatestProduct() {
-		List<ProductDto> list = productService.listAllLatestProduct();
-		return ResponseEntity.ok(list);
-	}
-
-	// @PostMapping("/create")
-	// public ResponseEntity<?> createProduct(@Valid @RequestBody ProductDto Product) {
-	// 	return ResponseEntity.ok(productService.create(Product));
-	// }
-
-	// @PutMapping("/update/{id}")
-	// public ResponseEntity<?> updateProduct(@PathVariable(name = "id") Integer id, @Valid @RequestBody ProductDto p) {
-	// 	p.setProductId(id);
-	// 	return ResponseEntity.ok(productService.update(p));
-	// }
-
-	// @DeleteMapping("/delete/{id}")
-	// public ResponseEntity<?> deleteProduct(@PathVariable(name = "id") Integer id) {
-	// 	return ResponseEntity.ok(productService.delete(id));
-	// }
-
+    @GetMapping("{id}/description")
+    public ResponseEntity<?> getProductDescriptionByProductId(@PathVariable(name ="id") Integer id){
+        ProductDescriptionDto res = productDescriptionService.getProductDescriptionByProductId(id);
+        if(res == null){
+            return ResponseEntity.ok("No description found");
+        }
+        return ResponseEntity.ok(productDescriptionService.getProductDescriptionByProductId(id));
+    }
 }

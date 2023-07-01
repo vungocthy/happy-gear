@@ -3,7 +3,9 @@ package com.notimplement.happygear.controllers;
 import com.notimplement.happygear.service.BrandService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/brands")
@@ -16,25 +18,4 @@ public class BrandApi {
 	public ResponseEntity<?> listAllBrand(){
 		return ResponseEntity.ok(brandService.listAll());
 	}
-	
-// 	@GetMapping("/{id}")
-// 	public ResponseEntity<?> getBrandById(@PathVariable(name ="id") Integer id){
-// 		return ResponseEntity.ok(brandService.getById(id));
-// 	}
-	
-// 	@PostMapping("/create")
-// 	public ResponseEntity<?> createBrand(@Valid @RequestBody BrandDto brand){
-// 		return ResponseEntity.ok(brandService.create(brand));
-// 	}
-	
-// 	@PutMapping("/update/{id}")
-// 	public ResponseEntity<?> updateBrand(@PathVariable(name ="id") Integer id ,@Valid @RequestBody BrandDto brand){
-// 		brand.setBrandId(id);
-// 		return ResponseEntity.ok(brandService.update(brand));
-// 	}
-	
-// 	@DeleteMapping("/delete/{id}")
-// 	public ResponseEntity<?> deleteBrand(@PathVariable(name ="id") Integer id){
-// 		return ResponseEntity.ok(brandService.delete(id));
-// 	}
 }

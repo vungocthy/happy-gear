@@ -108,6 +108,11 @@ public class OrderDetailServiceImpl implements OrderDetailService {
         return totalCartAmount;
     }
 
+    @Override
+    public List<OrderDetail> getByOrderId(Integer id) {
+        return orderDetailRepository.findAllByOrderId(id);
+    }
+
     private OrderDetail toOrderDetail(OrderDetailDto orderDetailDto) {
         OrderDetail orderDetail = new OrderDetail();
         orderDetail.setDetailId(orderDetailDto.getDetailId());

@@ -23,4 +23,6 @@ public interface ProductService {
 	Long totalProduct();
 	Map<List<ProductDto>, Long> listByPageAndName(String productName, Pageable pageable);
 	List<ProductDto> listAllBestSellingProduct();
+	Map<List<ProductDto>, Integer> listAllProductAndFilter(Integer page, Integer limit, List<Integer> brandIds, List<Integer> categoryIds, Double fromPrice,
+			Double toPrice, String sort, String search);
 }
