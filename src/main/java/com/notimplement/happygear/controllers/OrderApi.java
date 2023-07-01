@@ -64,7 +64,7 @@ public class OrderApi {
         return ResponseEntity.ok("success");
     }
 
-    @GetMapping("/{id}/order-detail")
+    @GetMapping("/{id}/order-details")
     public ResponseEntity<?> getOrderDetailByOrderId(@PathVariable(name = "id") Integer id) {
         return ResponseEntity.ok(orderDetailService.getByOrderId(id));
     }

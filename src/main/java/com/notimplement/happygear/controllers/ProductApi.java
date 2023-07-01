@@ -1,7 +1,9 @@
 package com.notimplement.happygear.controllers;
 
 import com.notimplement.happygear.model.dto.PaginationObject;
+import com.notimplement.happygear.model.dto.ProductDescriptionDto;
 import com.notimplement.happygear.model.dto.ProductDto;
+import com.notimplement.happygear.service.ProductDescriptionService;
 import com.notimplement.happygear.service.ProductPictureService;
 import com.notimplement.happygear.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,7 @@ public class ProductApi {
 
     private final ProductService productService;
     private final ProductPictureService productPictureService;
+    private final ProductDescriptionService productDescriptionService;
 
     @GetMapping("/best-selling")
     public ResponseEntity<?> listBestSellingProduct() {
@@ -68,5 +71,14 @@ public class ProductApi {
     public ResponseEntity<?> listLatestProduct() {
         List<ProductDto> list = productService.listAllLatestProduct();
         return ResponseEntity.ok(list);
+    }
+
+    @GetMapping("{id}/description")
+    public ResponseEntity<?> getProductDescriptionByProductId(@PathVariable(name ="id") Integer id){
+        ProductDescriptionDto res = productDescriptionService.getProductDescriptionByProductId(id);
+        if(res == null){
+            return ResponseEntity.ok("No description found");
+        }
+        return ResponseEntity.ok(productDescriptionService.getProductDescriptionByProductId(id));
     }
 }

@@ -15,16 +15,7 @@ public class ProductDescriptionApi {
 
 	private final ProductDescriptionService productDescriptionService;
 
-	@GetMapping("/product/{id}")
-	public ResponseEntity<?> getProductDescriptionByProductId(@PathVariable(name ="id") Integer id){
-		ProductDescriptionDto res = productDescriptionService.getProductDescriptionByProductId(id);
-		if(res == null){
-			return ResponseEntity.ok("No description found");
-		}
-		return ResponseEntity.ok(productDescriptionService.getProductDescriptionByProductId(id));
-	}
-
-	@PostMapping("/create")
+	@PostMapping("")
 	public ResponseEntity<?> createProductDescription(@Valid @RequestBody ProductDescriptionDto ProductDescription){
 		return ResponseEntity.ok(productDescriptionService.create(ProductDescription));
 	}
