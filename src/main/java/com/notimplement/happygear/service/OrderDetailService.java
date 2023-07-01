@@ -16,4 +16,5 @@ public interface OrderDetailService {
     OrderDetailDto update(OrderDetailDto orderDetailDto);
     OrderDetailDto delete(Integer id);
     Double getCartAmount(List<CartItemDto> list);
+    List<OrderDetail> getByOrderId(Integer id);
 }

@@ -24,21 +24,6 @@ public class OrderApi {
     private final OrderDetailService orderDetailService;
     private final UserService userService;
 
-    // @GetMapping("")
-    // public ResponseEntity<?> getAllOrder() {
-    //     return ResponseEntity.ok(orderService.getAllOrderDto());
-    // }
-
-    // @GetMapping("/{id}")
-    // public ResponseEntity<?> getOrderByOrderId(@PathVariable Integer id) {
-    //     return ResponseEntity.ok(orderService.getByOrderId(id));
-    // }
-
-    // @PutMapping("/update")
-    // public ResponseEntity<?> updateOrder(@RequestBody OrderDto orderDto) {
-    //     return ResponseEntity.ok(orderService.update(orderDto));
-    // }
-
     @PostMapping("")
     public ResponseEntity<?> createOrder(@Valid @RequestBody RequestOrderDto order) {
         log.info("Request " + order.toString());
@@ -79,8 +64,8 @@ public class OrderApi {
         return ResponseEntity.ok("success");
     }
 
-    // @DeleteMapping("/delete/{id}")
-    // public ResponseEntity<?> deleteOrder(@PathVariable Integer id) {
-    //     return ResponseEntity.ok(orderService.delete(id));
-    // }
+    @GetMapping("/{id}/order-detail")
+    public ResponseEntity<?> getOrderDetailByOrderId(@PathVariable(name = "id") Integer id) {
+        return ResponseEntity.ok(orderDetailService.getByOrderId(id));
+    }
 }
