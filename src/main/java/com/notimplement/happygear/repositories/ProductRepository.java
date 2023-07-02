@@ -36,10 +36,10 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     List<Product> findTop4BestSellingProduct(Pageable pageable);
 
     @Query("SELECT p FROM Product p " +
-            "WHERE (:brandIds IS NULL OR p.brand.brandId IN (:brandIds))" +
-            "AND (:categoryIds IS NULL OR p.category.categoryId IN (:categoryIds)) " +
+            "WHERE (:#{#brand.size()} = 0 OR p.brand.brandId IN :brand)" +
+            "AND (:#{#category.size()} = 0 OR p.category.categoryId IN :category) " +
             "AND p.price BETWEEN :fromPrice AND :toPrice " +
             "AND p.productName LIKE %:search%")
-    Page<Product> findProductsAndFilter(List<Integer> brandIds, List<Integer> categoryIds,
+    Page<Product> findProductsAndFilter(List<Integer> brand, List<Integer> category,
                                         Double fromPrice, Double toPrice, String search, Pageable pageable);
 }
