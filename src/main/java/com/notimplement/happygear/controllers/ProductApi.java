@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -47,8 +48,8 @@ public class ProductApi {
         Map<List<ProductDto>, Integer> listIntegerMap = productService.listAllProductAndFilter(
                 page.orElse(0),
                 limit.orElse(8),
-                brandIds.orElse(null),
-                categoryIds.orElse(null),
+                brandIds.orElse(new ArrayList<>()),
+                categoryIds.orElse(new ArrayList<>()),
                 fromPrice.orElse(0.0),
                 toPrice.orElse(Double.MAX_VALUE),
                 sortBy.orElse("asc"),
