@@ -52,7 +52,7 @@ public class ProductApi {
                 categoryIds.orElse(new ArrayList<>()),
                 fromPrice.orElse(0.0),
                 toPrice.orElse(Double.MAX_VALUE),
-                sortBy.orElse("asc"),
+                sortBy.orElse(""),
                 search.orElse("")
         );
         PaginationObject paginationObject = new PaginationObject();
