@@ -1,16 +1,15 @@
 package com.notimplement.happygear.security.config;
 
-import java.io.IOException;
-import java.util.UUID;
-
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
-
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.messaging.FirebaseMessaging;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
+
+import java.io.IOException;
+import java.util.UUID;
 
 @Configuration
 public class AppConfig {
@@ -25,7 +24,7 @@ public class AppConfig {
                 .builder()
                 .setCredentials(googleCredentials)
                 .build();
-        FirebaseApp app = FirebaseApp.initializeApp(firebaseOptions, "GadgetZone" + uuid.toString());
+        FirebaseApp app = FirebaseApp.initializeApp(firebaseOptions, "GadgetZone" + uuid);
         return FirebaseMessaging.getInstance(app);
     }
 }
