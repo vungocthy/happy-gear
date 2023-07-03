@@ -1,18 +1,14 @@
 package com.notimplement.happygear.service.imp;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import com.notimplement.happygear.model.mapper.Mapper;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.notimplement.happygear.entities.ProductDescription;
 import com.notimplement.happygear.model.dto.ProductDescriptionDto;
+import com.notimplement.happygear.model.mapper.Mapper;
 import com.notimplement.happygear.repositories.ProductDescriptionRepository;
 import com.notimplement.happygear.repositories.ProductRepository;
 import com.notimplement.happygear.service.ProductDescriptionService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -22,20 +18,6 @@ public class ProductDescriptionServiceImpl implements ProductDescriptionService{
 
 	private final ProductDescriptionRepository productDescriptionRepository;
 	private final ProductRepository productRepository;
-	
-	@Override
-	public List<ProductDescriptionDto> listAll() {
-		return productDescriptionRepository.findAll()
-				.stream()
-				.map(Mapper::toProductDescriptionDto)
-				.collect(Collectors.toList());
-	}
-
-	@Override
-	public ProductDescriptionDto getById(Integer id) {
-		ProductDescription des = productDescriptionRepository.findById(id).get();
-		return Mapper.toProductDescriptionDto(des);
-	}
 
 	@Override
 	public ProductDescriptionDto create(ProductDescriptionDto b) {

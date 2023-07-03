@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -27,35 +26,6 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     private final ProductRepository productRepository;
 
     @Override
-    public List<OrderDetailDto> getAllOrderDetailDto() {
-        return orderDetailRepository.findAll()
-                .stream().map(Mapper::toOrderDetailDto).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<OrderDetail> getAllOrderDetail() {
-        return orderDetailRepository.findAll();
-    }
-
-    @Override
-    public OrderDetailDto getByDetailId(Integer id) {
-        OrderDetail orderDetail = orderDetailRepository.findByDetailId(id);
-        return Mapper.toOrderDetailDto(orderDetail);
-    }
-
-    @Override
-    public List<OrderDetailDto> getAllByOrderId(Integer id) {
-        return orderDetailRepository.findAllByOrderId(id)
-                .stream().map(Mapper::toOrderDetailDto).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<OrderDetailDto> getAllByProductId(Integer id) {
-        return orderDetailRepository.findAllByProductId(id)
-                .stream().map(Mapper::toOrderDetailDto).collect(Collectors.toList());
-    }
-
-    @Override
     public OrderDetailDto create(OrderDetailDto orderDetailDto) {
         if (orderDetailDto != null) {
             OrderDetail orderDetail = toOrderDetail(orderDetailDto);
@@ -63,24 +33,6 @@ public class OrderDetailServiceImpl implements OrderDetailService {
             return Mapper.toOrderDetailDto(orderDetail);
         }
         return null;
-    }
-
-    @Override
-    public OrderDetailDto update(OrderDetailDto orderDetailDto) {
-        if (orderDetailDto != null) {
-            OrderDetail orderDetail = toOrderDetail(orderDetailDto);
-            orderDetailRepository.save(orderDetail);
-            return Mapper.toOrderDetailDto(orderDetail);
-        }
-        return null;
-    }
-
-    @Override
-    public OrderDetailDto delete(Integer id) {
-        OrderDetail orderDetail = orderDetailRepository.findByDetailId(id);
-        orderDetail.setStatus(false);
-        OrderDetail res = orderDetailRepository.save(orderDetail);
-        return Mapper.toOrderDetailDto(res);
     }
 
     @Override
