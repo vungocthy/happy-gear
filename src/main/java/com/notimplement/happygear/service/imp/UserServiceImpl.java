@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -95,10 +96,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getUserByEmail(String email) {
-        User u = userRepository.findByEmail(email);
-        if(u==null){
-            return null;
-        }
-        return Mapper.toUserDto(u);
+        Optional<User> u = userRepository.findUserByEmail(email);
+        return u.map(Mapper::toUserDto).orElse(null);
     }
 }
