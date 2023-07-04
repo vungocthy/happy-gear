@@ -51,18 +51,24 @@ public class UserApi {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody UserDto userDto){
+        System.out.println(userDto.getEmail());
+
         UserDto existUserDto = userService.getByUserName(userDto.getUsername());
         UserDto existEmail = userService.getUserByEmail(userDto.getEmail());
-        if(existUserDto==null){
-            userDto.setStatus(true);
-            userDto.setRoleId(2);
-            UserDto user = userService.signup(userDto);
-            return ResponseEntity.created(null).body(user);
+
+        if(existEmail!=null && existUserDto!=null){
+            return ResponseEntity.badRequest().body("Username and Email already exists");
         }
-        else if(existEmail!=null){
+        else if(existEmail != null){
             return ResponseEntity.badRequest().body("Email already exists");
         }
-        return ResponseEntity.ok(existUserDto);
+        else if(existUserDto != null){
+            return ResponseEntity.badRequest().body("Username already exists");
+        }
+        userDto.setStatus(true);
+        userDto.setRoleId(2);
+        UserDto user = userService.signup(userDto);
+        return ResponseEntity.created(null).body(user);
     }
 
     @GetMapping("/{username}/orders")

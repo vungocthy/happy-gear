@@ -24,7 +24,6 @@ public class UserDto {
     @Size(min=6, message = "Password must have at least 6 character")
     @NotNull(message = "Password is required")
     private String password;
-    @NotNull(message = "Email is required")
     @Email
     private String email;
     @NotNull(message = "Phone Number is required for personal orders")
