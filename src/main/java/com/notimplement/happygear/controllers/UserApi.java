@@ -25,6 +25,13 @@ public class UserApi {
         return ResponseEntity.ok(userDto);
     }
 
+    @GetMapping("/email/{email}")
+    public ResponseEntity<?> getUserByEmail(@PathVariable(name = "email") String email){
+        UserDto userDto = userService.getUserByEmail(email);
+        if(userDto==null) return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(userDto);
+    }
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AccountDto accountDto){
         UserDto userDto = userService.login(accountDto);
