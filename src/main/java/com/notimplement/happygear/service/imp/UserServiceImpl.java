@@ -1,10 +1,13 @@
 package com.notimplement.happygear.service.imp;
 
+import com.notimplement.happygear.entities.OrderDetail;
 import com.notimplement.happygear.entities.User;
 import com.notimplement.happygear.model.dto.AccountDto;
+import com.notimplement.happygear.model.dto.OrderDetailModel;
 import com.notimplement.happygear.model.dto.OrderDto;
 import com.notimplement.happygear.model.dto.UserDto;
 import com.notimplement.happygear.model.mapper.Mapper;
+import com.notimplement.happygear.repositories.ProductRepository;
 import com.notimplement.happygear.repositories.RoleRepository;
 import com.notimplement.happygear.repositories.UserRepository;
 import com.notimplement.happygear.service.UserService;
@@ -12,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,6 +27,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final ProductRepository productRepository;
 
     @Override
     public UserDto signup(UserDto userDto) {
@@ -88,15 +93,37 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<OrderDto> getOrdersByUsername(String username) {
-        return userRepository.findOrdersByUsername(username)
+        var res = userRepository.findOrdersByUsername(username)
                 .stream()
                 .map(Mapper::toOrderDto)
                 .collect(Collectors.toList());
+        return res;
     }
 
     @Override
     public UserDto getUserByEmail(String email) {
         Optional<User> u = userRepository.findUserByEmail(email);
         return u.map(Mapper::toUserDto).orElse(null);
+    }
+
+    @Override
+    public List<OrderDetailModel> getOrderDetailsByUsername(String username) {
+        List<OrderDetailModel> res = new ArrayList<>();
+        List<OrderDetail> orderDetails = userRepository.findAllOrderDetailByUsername(username);
+
+        orderDetails.stream().forEach(od -> {
+            res.add(OrderDetailModel.builder()
+                    .detailId(od.getDetailId())
+                    .insuranceInfo(od.getProduct().getInsuranceInfo())
+                    .picture(od.getProduct().getPicture())
+                    .orderId(od.getOrder().getOrderId())
+                    .price(od.getPrice())
+                    .productId(od.getProduct().getProductId())
+                    .productName(od.getProduct().getProductName())
+                    .quantity(od.getQuantity())
+                    .status(od.getStatus())
+                    .build());
+        });
+        return res;
     }
 }

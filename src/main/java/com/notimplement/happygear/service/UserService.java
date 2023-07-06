@@ -1,6 +1,7 @@
 package com.notimplement.happygear.service;
 
 import com.notimplement.happygear.model.dto.AccountDto;
+import com.notimplement.happygear.model.dto.OrderDetailModel;
 import com.notimplement.happygear.model.dto.OrderDto;
 import com.notimplement.happygear.model.dto.UserDto;
 
@@ -13,4 +14,5 @@ public interface UserService {
     UserDto getByUserName(String name);
     List<OrderDto> getOrdersByUsername(String username);
     UserDto getUserByEmail(String email);
+    List<OrderDetailModel> getOrderDetailsByUsername(String username);
 }
