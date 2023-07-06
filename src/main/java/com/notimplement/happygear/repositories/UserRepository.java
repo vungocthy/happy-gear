@@ -1,7 +1,9 @@
 package com.notimplement.happygear.repositories;
 
 import com.notimplement.happygear.entities.Order;
+import com.notimplement.happygear.entities.OrderDetail;
 import com.notimplement.happygear.entities.User;
+import com.notimplement.happygear.model.dto.OrderDetailModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -17,4 +19,6 @@ public interface UserRepository extends JpaRepository<User,String> {
     List<Order> findOrdersByUsername(String username);
     @Query("SELECT u FROM User u WHERE u.email = :email")
     Optional<User> findUserByEmail(String email);
+    @Query("SELECT od FROM OrderDetail od WHERE od.order.user.username = :username")
+    List<OrderDetail> findAllOrderDetailByUsername(String username);
 }

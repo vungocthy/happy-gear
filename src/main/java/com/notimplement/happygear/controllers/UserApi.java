@@ -1,9 +1,6 @@
 package com.notimplement.happygear.controllers;
 
-import com.notimplement.happygear.model.dto.AccountDto;
-import com.notimplement.happygear.model.dto.OrderDto;
-import com.notimplement.happygear.model.dto.UserDto;
-import com.notimplement.happygear.model.dto.UserInfoDto;
+import com.notimplement.happygear.model.dto.*;
 import com.notimplement.happygear.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -81,6 +78,12 @@ public class UserApi {
     @GetMapping("/{username}/orders")
     public ResponseEntity<?> getOrdersByUsername(@PathVariable(name = "username") String username){
         List<OrderDto> list = userService.getOrdersByUsername(username);
+        return ResponseEntity.ok(list);
+    }
+
+    @GetMapping("/{username}/order-details")
+    public ResponseEntity<?> getOrderDetailsByUsername(@PathVariable(name = "username") String username){
+        List<OrderDetailModel> list = userService.getOrderDetailsByUsername(username);
         return ResponseEntity.ok(list);
     }
 }
