@@ -3,11 +3,15 @@ package com.notimplement.happygear.service.imp;
 import com.notimplement.happygear.entities.Brand;
 import com.notimplement.happygear.entities.Category;
 import com.notimplement.happygear.entities.Product;
+import com.notimplement.happygear.entities.ShopAddress;
 import com.notimplement.happygear.model.dto.ProductDto;
+import com.notimplement.happygear.model.dto.ProductModelDto;
+import com.notimplement.happygear.model.dto.ShopAddressDto;
 import com.notimplement.happygear.model.mapper.Mapper;
 import com.notimplement.happygear.repositories.BrandRepository;
 import com.notimplement.happygear.repositories.CategoryRepository;
 import com.notimplement.happygear.repositories.ProductRepository;
+import com.notimplement.happygear.repositories.ShopAddressRepository;
 import com.notimplement.happygear.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -31,6 +35,7 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final BrandRepository brandRepository;
     private final CategoryRepository categoryRepository;
+    private final ShopAddressRepository shopAddressRepository;
 
     @Override
     public List<ProductDto> listAll() {
@@ -71,6 +76,29 @@ public class ProductServiceImpl implements ProductService {
                 products.stream().map(Mapper::toProductDto).collect(Collectors.toList()),
                 products.getTotalPages());
         return pair;
+    }
+
+    @Override
+    public ProductModelDto getProductModelById(Integer id) {
+        Product p = productRepository.findByProductId(id);
+        if (p != null) {
+            List<ShopAddressDto> list =
+                    shopAddressRepository.findShopAddressByProductId(id).stream().map(Mapper::toShopAddressDto).collect(Collectors.toList());
+
+            return ProductModelDto.builder()
+                    .productId(p.getProductId())
+                    .productName(p.getProductName())
+                    .price(p.getPrice())
+                    .quantity(p.getQuantity())
+                    .insuranceInfo(p.getInsuranceInfo())
+                    .status(p.getStatus())
+                    .picture(p.getPicture())
+                    .brandId(p.getBrand().getBrandId())
+                    .categoryId(p.getCategory().getCategoryId())
+                    .shopAddresses(list)
+                    .build();
+        }
+        return null;
     }
 
     @Override
