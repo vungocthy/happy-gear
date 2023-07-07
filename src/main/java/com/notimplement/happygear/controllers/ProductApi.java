@@ -35,6 +35,12 @@ public class ProductApi {
         return ResponseEntity.ok(results);
     }
 
+    @GetMapping("/{id}/addresses")
+    public ResponseEntity<?> productAddressById(@PathVariable("id") Integer id) {
+        var results = productService.getProductModelById(id);
+        return ResponseEntity.ok(results);
+    }
+
     @GetMapping("")
     public ResponseEntity<?> listProductAndFilter(
             @RequestParam("page") Optional<Integer> page,

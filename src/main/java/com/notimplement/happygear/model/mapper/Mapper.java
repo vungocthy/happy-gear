@@ -115,4 +115,13 @@ public class Mapper {
             .status(r.getStatus())
             .build();
     }
+
+    public static ShopAddressDto toShopAddressDto(ShopAddress shopAddress) {
+        return ShopAddressDto.builder()
+            .shopAddressId(shopAddress.getShopAddressId())
+            .address(shopAddress.getAddress())
+            .longitude(shopAddress.getLongitude())
+            .latitude(shopAddress.getLatitude())
+            .build();
+    }
 }

@@ -59,8 +59,12 @@ public class Product {
 	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
 	@JsonBackReference
 	private List<ProductPicture> productPictures;
-	
+
 	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
 	@JsonBackReference
 	private List<OrderDetail> orderDetails;
+
+	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+	@JsonBackReference
+	private List<ShopAddress> shopAddresses;
 }
