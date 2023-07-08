@@ -1,11 +1,12 @@
 package com.notimplement.happygear.entities;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Table(name = "tbl_shop_address")
 @Entity
@@ -27,8 +28,7 @@ public class ShopAddress {
     @Column(name = "latitude")
     private String latitude;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    @JsonManagedReference
-    private Product product;
+    @OneToMany(mappedBy = "shopAddress", fetch = FetchType.LAZY)
+    @JsonBackReference
+    private List<ProductShopAddress> productShopAddresses;
 }

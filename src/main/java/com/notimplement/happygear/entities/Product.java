@@ -66,5 +66,5 @@ public class Product {
 
 	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
 	@JsonBackReference
-	private List<ShopAddress> shopAddresses;
+	private List<ProductShopAddress> productShopAddresses;
 }
