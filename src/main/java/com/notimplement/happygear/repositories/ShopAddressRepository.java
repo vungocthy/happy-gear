@@ -9,6 +9,10 @@ import java.util.List;
 
 @Repository
 public interface ShopAddressRepository extends JpaRepository<ShopAddress, Integer> {
-    @Query("SELECT sa FROM ShopAddress sa WHERE sa.product.productId = :productId")
+    @Query("SELECT sa FROM ShopAddress sa WHERE sa.shopAddressId IN " +
+            "(SELECT psa.shopAddress.shopAddressId FROM ProductShopAddress psa WHERE psa.product.productId = ?1)")
     List<ShopAddress> findShopAddressByProductId(Integer productId);
+
+    @Query("SELECT sa FROM ShopAddress sa")
+    List<ShopAddress> findAllShopAddress();
 }
