@@ -27,5 +27,5 @@ momo:
   accessKey: yzp3lsHbJJifAkNU
   secretKey: CJLOBZMb1CpjqpDl9bhA9zqnCTv2ThSY
   endPoint: https://test-payment.momo.vn/v2/gateway/api/create
-  returnUrl: http://localhost:8080/api/payment/momo-info
+  returnUrl: https://happygear.page.link/order
   notifyUrl: http://localhost:8080/ETrans/MoMoNotify
