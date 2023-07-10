@@ -7,7 +7,6 @@ import com.notimplement.happygear.model.dto.OrderDetailModel;
 import com.notimplement.happygear.model.dto.OrderDto;
 import com.notimplement.happygear.model.dto.UserDto;
 import com.notimplement.happygear.model.mapper.Mapper;
-import com.notimplement.happygear.repositories.ProductRepository;
 import com.notimplement.happygear.repositories.RoleRepository;
 import com.notimplement.happygear.repositories.UserRepository;
 import com.notimplement.happygear.service.UserService;
@@ -27,8 +26,6 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    private final ProductRepository productRepository;
-
     @Override
     public UserDto signup(UserDto userDto) {
         String fullName = userDto.getFullName();
