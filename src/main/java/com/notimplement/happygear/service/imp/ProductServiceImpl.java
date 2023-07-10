@@ -3,7 +3,6 @@ package com.notimplement.happygear.service.imp;
 import com.notimplement.happygear.entities.Brand;
 import com.notimplement.happygear.entities.Category;
 import com.notimplement.happygear.entities.Product;
-import com.notimplement.happygear.entities.ShopAddress;
 import com.notimplement.happygear.model.dto.ProductDto;
 import com.notimplement.happygear.model.dto.ProductModelDto;
 import com.notimplement.happygear.model.dto.ShopAddressDto;
