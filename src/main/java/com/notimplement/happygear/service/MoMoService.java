@@ -1,5 +1,14 @@
 package com.notimplement.happygear.service;
 
+import com.notimplement.happygear.model.dto.Response;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
@@ -8,18 +17,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Formatter;
 import java.util.HashMap;
 import java.util.UUID;
-
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
-
-import com.notimplement.happygear.model.dto.Response;
-
-import reactor.core.publisher.Mono;
 
 @Service
 public class MoMoService {
@@ -46,19 +43,19 @@ public class MoMoService {
     private String storeId = "MoMoStore";
 
     public Object getPaymentUrl(Long amount)
-            throws InvalidKeyException, 
-            NoSuchAlgorithmException, 
-            IOException, UnsupportedEncodingException {
+            throws InvalidKeyException,
+            NoSuchAlgorithmException,
+            IOException {
 
         String requestRawData = new StringBuilder()
-            .append("accessKey").append("=").append(accessKey).append("&")
-            .append("amount").append("=").append(amount).append("&")
-            .append("extraData").append("=").append(extraData).append("&")
-            .append("ipnUrl").append("=").append(notifyUrl).append("&")
-            .append("orderId").append("=").append(orderId).append("&")
-            .append("orderInfo").append("=").append(orderInfo).append("&")
-            .append("partnerCode").append("=").append(partnerCode).append("&")
-            .append("redirectUrl").append("=").append(returnUrl).append("&")
+                .append("accessKey").append("=").append(accessKey).append("&")
+                .append("amount").append("=").append(amount).append("&")
+                .append("extraData").append("=").append(extraData).append("&")
+                .append("ipnUrl").append("=").append(notifyUrl).append("&")
+                .append("orderId").append("=").append(orderId).append("&")
+                .append("orderInfo").append("=").append(orderInfo).append("&")
+                .append("partnerCode").append("=").append(partnerCode).append("&")
+                .append("redirectUrl").append("=").append(returnUrl).append("&")
             .append("requestId").append("=").append(requestId).append("&")
             .append("requestType").append("=").append(requestType)
             .toString();
