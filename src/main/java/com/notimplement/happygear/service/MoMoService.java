@@ -39,10 +39,10 @@ public class MoMoService {
     private String requestType = "captureWallet";
     private String extraData = "";
     private String lang = "en";
-    private String partnerName = "CAR RENTAL";
+    private String partnerName = "Shop";
     private String storeId = "MoMoStore";
 
-    public Object getPaymentUrl(Long amount)
+    public Object getPaymentUrl(Long amount, String orderId)
             throws InvalidKeyException,
             NoSuchAlgorithmException,
             IOException {
@@ -56,9 +56,9 @@ public class MoMoService {
                 .append("orderInfo").append("=").append(orderInfo).append("&")
                 .append("partnerCode").append("=").append(partnerCode).append("&")
                 .append("redirectUrl").append("=").append(returnUrl).append("&")
-            .append("requestId").append("=").append(requestId).append("&")
-            .append("requestType").append("=").append(requestType)
-            .toString();
+                .append("requestId").append("=").append(requestId).append("&")
+                .append("requestType").append("=").append(requestType)
+                .toString();
                 
         String signature = signHmacSHA256(requestRawData, secretKey);
         
