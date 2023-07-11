@@ -5,8 +5,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.UUID;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -60,8 +58,7 @@ public class MoMoApi {
     public ResponseEntity<?> createOrder(@RequestParam Long amount)
             throws InvalidKeyException,
             NoSuchAlgorithmException,IOException {
-        String orderId = UUID.randomUUID().toString();
-        Object object = moMoService.getPaymentUrl(amount, orderId);
+        Object object = moMoService.getPaymentUrl(amount);
         return ResponseEntity.ok(object);
     }
 }
