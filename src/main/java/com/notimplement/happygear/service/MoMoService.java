@@ -33,19 +33,19 @@ public class MoMoService {
     @Value("${momo.notifyUrl}")
     private String notifyUrl;
 
-    private String orderId = UUID.randomUUID().toString();
-    private String orderInfo = "PAY WITH MOMO";
-    private String requestId = UUID.randomUUID().toString();
-    private String requestType = "captureWallet";
-    private String extraData = "";
-    private String lang = "en";
-    private String partnerName = "Shop";
-    private String storeId = "MoMoStore";
-
-    public Object getPaymentUrl(Long amount, String orderId)
+    public Object getPaymentUrl(Long amount)
             throws InvalidKeyException,
             NoSuchAlgorithmException,
             IOException {
+
+        String orderId = UUID.randomUUID().toString();
+        String orderInfo = "PAY WITH MOMO";
+        String requestId = UUID.randomUUID().toString();
+        String requestType = "captureWallet";
+        String extraData = "";
+        String lang = "en";
+        String partnerName = "Shop";
+        String storeId = "MoMoStore";
 
         String requestRawData = new StringBuilder()
                 .append("accessKey").append("=").append(accessKey).append("&")
@@ -59,9 +59,9 @@ public class MoMoService {
                 .append("requestId").append("=").append(requestId).append("&")
                 .append("requestType").append("=").append(requestType)
                 .toString();
-                
+
         String signature = signHmacSHA256(requestRawData, secretKey);
-        
+
         HashMap<String, String> values = new HashMap<String, String>() {
             {
                 put("partnerCode", partnerCode);
@@ -79,11 +79,11 @@ public class MoMoService {
                 put("signature", signature);
             }
         };
-        
+
         WebClient.Builder builder = WebClient.builder();
 
         WebClient webClient = builder.build();
-        
+
         Mono<Object> result = webClient.post()
                 .uri(endPoint)
                 .bodyValue(values)
@@ -95,36 +95,35 @@ public class MoMoService {
     }
 
     public Response reCheckAndResponseToClient(
-        String partnerCode, String orderId, String requestId,
-        String amount, String orderInfo, String orderType,
-        String transId, String resultCode, String message,
-        String payType, String responseTime, String extraData,
-        String signature
-    ) throws InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException {
-        
+            String partnerCode, String orderId, String requestId,
+            String amount, String orderInfo, String orderType,
+            String transId, String resultCode, String message,
+            String payType, String responseTime, String extraData,
+            String signature) throws InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException {
+
         String requestRawData = new StringBuilder()
-            .append("accessKey").append("=").append(accessKey).append("&")
-            .append("amount").append("=").append(amount).append("&")
-            .append("extraData").append("=").append(extraData).append("&")
-            .append("message").append("=").append(message).append("&")
-            .append("orderId").append("=").append(orderId).append("&")
-            .append("orderInfo").append("=").append(orderInfo).append("&")
-            .append("orderType").append("=").append(orderType).append("&")
-            .append("partnerCode").append("=").append(partnerCode).append("&")
-            .append("payType").append("=").append(payType).append("&")
-            .append("requestId").append("=").append(requestId).append("&")
-            .append("responseTime").append("=").append(responseTime).append("&")
-            .append("resultCode").append("=").append(resultCode).append("&")
-            .append("transId").append("=").append(transId)
-            .toString();
+                .append("accessKey").append("=").append(accessKey).append("&")
+                .append("amount").append("=").append(amount).append("&")
+                .append("extraData").append("=").append(extraData).append("&")
+                .append("message").append("=").append(message).append("&")
+                .append("orderId").append("=").append(orderId).append("&")
+                .append("orderInfo").append("=").append(orderInfo).append("&")
+                .append("orderType").append("=").append(orderType).append("&")
+                .append("partnerCode").append("=").append(partnerCode).append("&")
+                .append("payType").append("=").append(payType).append("&")
+                .append("requestId").append("=").append(requestId).append("&")
+                .append("responseTime").append("=").append(responseTime).append("&")
+                .append("resultCode").append("=").append(resultCode).append("&")
+                .append("transId").append("=").append(transId)
+                .toString();
 
         String signRequest = signHmacSHA256(requestRawData, secretKey);
 
         if (!signRequest.equals(signature)) {
             Response res = Response.builder()
-                .message("INVALID SIGNATURE")
-                .status(resultCode)
-                .build();
+                    .message("INVALID SIGNATURE")
+                    .status(resultCode)
+                    .build();
             return res;
         }
         return Response.builder()
