@@ -18,6 +18,6 @@ public interface UserRepository extends JpaRepository<User,String> {
     List<Order> findOrdersByUsername(String username);
     @Query("SELECT u FROM User u WHERE u.email = :email")
     Optional<User> findUserByEmail(String email);
-    @Query("SELECT od FROM OrderDetail od WHERE od.order.user.username = :username")
+    @Query("SELECT od FROM OrderDetail od WHERE od.order.user.username = :username ORDER BY od.detailId DESC")
     List<OrderDetail> findAllOrderDetailByUsername(String username);
 }
