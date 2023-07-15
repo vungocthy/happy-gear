@@ -46,11 +46,12 @@ public class MoMoApi {
                 payType, responseTime, extraData, signature);
         if (res.getStatus().equals("0")) {
             return ResponseEntity.status(HttpStatus.FOUND)
-                    .location(URI.create(
-                            "https://fullstackdeveloper.guru/2021/03/12/how-to-redirect-to-an-external-url-from-spring-boot-rest-controller"))
+                    .location(URI.create("https://happygear.page.link/order"))
                     .build();
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error");
+            return ResponseEntity.status(HttpStatus.FOUND)
+                    .location(URI.create("https://happygear.page.link/order-fail"))
+                    .build();
         }
     }
 
